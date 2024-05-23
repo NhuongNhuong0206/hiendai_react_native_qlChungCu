@@ -6,7 +6,6 @@ import {} from "../../assets/loginHome.png";
 import { Avatar } from "react-native-paper";
 
 const AccountInfo = () => {
-    // chạy nó báo lỗi gì đó anh
     return (
         <View>
             <View>

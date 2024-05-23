@@ -1,16 +1,20 @@
 import { Avatar, Text, TextInput } from "react-native-paper";
-import { TouchableOpacity, View } from "react-native";
+import { ImageBackground, TouchableOpacity, View } from "react-native";
 import myStyles from "../../Styles/myStyles";
 import styles from "./style";
 import * as React from "react";
 import { useState } from "react";
 
-const homeScreen = ({ name = "Nguyễn Thi A" }) => {
+const homeScreen = ({ route }) => {
+    const user = route.params;
     const [isPressed, setIsPressed] = useState(false);
     const [opacity, setOpacity] = useState({}); // State để lưu trữ trạng thái của mỗi view
     // Hàm xử lý sự kiện onPress cho mỗi view
     return (
-        <View style={[styles.container]}>
+        <ImageBackground
+            style={[styles.container]}
+            source={require("../../assets/backgrondLogin.png")}
+        >
             <View style={[styles.header]}>
                 <View style={[styles.headerIconLeft]}>
                     <TextInput.Icon icon="menu" color={"#ab9570"} size={30} />
@@ -37,7 +41,9 @@ const homeScreen = ({ name = "Nguyễn Thi A" }) => {
                 <View style={[styles.helloHeart]}>
                     <TextInput.Icon icon="heart" size={20} color={"#f3b15b"} />
                 </View>
-                <Text style={[styles.helloText]}>Xin chào, {name}</Text>
+                <Text style={[styles.helloText]}>
+                    Xin chào, {user.username}
+                </Text>
             </View>
             <TouchableOpacity
                 style={[
@@ -157,32 +163,32 @@ const homeScreen = ({ name = "Nguyễn Thi A" }) => {
                 </View>
             </View>
             <View style={[styles.bottom]}>
-                <View style={[styles.bottomIcon]}>
+                <TouchableOpacity style={[styles.bottomIcon]}>
                     <TextInput.Icon
                         icon="home"
-                        size={24}
-                        color={"#dcd3d1"}
+                        size={32}
+                        color={"#1d1813"}
                         style={[styles.bottomIconChild]}
                     />
-                </View>
-                <View style={[styles.bottomIcon]}>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.bottomIcon]}>
                     <TextInput.Icon
                         icon="phone"
-                        size={24}
-                        color={"#dcd3d1"}
+                        size={32}
+                        color={"#1d1813"}
                         style={[styles.bottomIconChild]}
                     />
-                </View>
-                <View style={[styles.bottomIcon]}>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.bottomIcon]}>
                     <TextInput.Icon
                         icon="account"
-                        size={24}
-                        color={"#dcd3d1"}
+                        size={32}
+                        color={"#1d1813"}
                         style={[styles.bottomIconChild]}
                     />
-                </View>
+                </TouchableOpacity>
             </View>
-        </View>
+        </ImageBackground>
     );
 };
 

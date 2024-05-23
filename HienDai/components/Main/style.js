@@ -2,13 +2,12 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
     container: {
-        backgroundColor: "#1d1813",
         width: "100%",
         height: "100%",
         position: "relative",
     },
     header: {
-        marginTop: 70,
+        marginTop: 20,
         height: 40,
         width: "100%",
         //backgroundColor: "red",
@@ -20,6 +19,7 @@ export default StyleSheet.create({
         paddingRight: 20,
     },
     nameHome: {
+        alignSelf: "center",
         alignItems: "center",
         fontSize: 28,
         fontWeight: "bold",
@@ -145,14 +145,13 @@ export default StyleSheet.create({
     },
     bottom: {
         width: "100%",
-        height: 44,
-        backgroundColor: "#403b3e",
+        height: 60,
+        // backgroundColor: "#403b3e",
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
         // alignItems: "center",
         paddingTop: 10,
-        position: "absolute",
         bottom: 0,
         paddingLeft: 20,
     },
@@ -163,11 +162,81 @@ export default StyleSheet.create({
         marginLeft: 54,
         height: 36,
         width: 64,
-        backgroundColor: "#1d1813",
+        backgroundColor: "#dcd3d1",
         borderRadius: 20,
     },
 
     btnPressedOpacity: {
         opacity: 0.5,
     },
+    TextTop: {
+        marginTop: 60,
+        color: "#dedbde",
+        fontSize: 18,
+        fontWeight: "bold",
+        textAlign: "center",
+    },
+    input: {
+        marginTop: 20,
+        width: "70%",
+        alignSelf: "center",
+        // marginLeft: 24,
+        // marginRight: 24,
+    },
+    chooseImg: {
+        backgroundColor: "#e6e0ec",
+        color: "#494350",
+        marginTop: 20,
+        fontSize: 10,
+        alignSelf: "center",
+        padding: 10,
+        borderRadius: 30,
+        width: 60,
+        height: 60,
+        textAlign: "center",
+    },
+    avatar: {
+        width: 220,
+        height: 220,
+        backgroundColor: "red",
+        borderRadius: 110,
+        alignSelf: "center",
+        marginTop: 50,
+    },
+    btnDone: {
+        position: "relative",
+        bottom: 10,
+        left: "25%",
+        backgroundColor: "#d6dce9",
+        width: "50%",
+        height: 46,
+        borderRadius: 60,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    btnLoginfatherPressed: {
+        opacity: 0.5,
+    },
+    // inputcode: {
+    //     backgroundColor: "transparent",
+    //     width: 20,
+    //     borderBottomColor: "red",
+    //     borderBottomWidth: 2,
+    //     marginLeft: 20,
+    // },
+    // PaInput: {
+    //     display: "flex",
+    //     flexDirection: "row",
+    //     alignSelf: "center",
+    // },
+    inputcode: {
+        width: "70%",
+        alignSelf: "center",
+        marginTop: 20,
+    },
+    TextTop3: {
+        alignSelf: "center",
+        marginTop:20,
+    }
 });

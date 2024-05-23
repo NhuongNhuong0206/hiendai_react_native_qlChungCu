@@ -18,38 +18,35 @@ import backgroundLogin from "../../assets/backgrondLogin.png";
 import { MyDispatcherContext } from "../../configs/Contexts";
 import { useNavigation } from "@react-navigation/native";
 
-const LoginScreen = ({ navigation }) => {
+const ForgotAccountScreen = ({ navigation }) => {
     const [errorMessage, setErrorMessage] = useState(false);
-    const [isPressed, setIsPressed] = useState(false);
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    const handleTogglePasswordVisibility = () => {
-        setIsPasswordVisible(!isPasswordVisible); // Đảo ngược trạng thái của mật khẩu (hiển thị hoặc ẩn đi)
-    };
 
+    const [isPressed, setIsPressed] = useState(false);
+    const [user, setUser] = useState(null);
     const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [identification, setidentification] = useState("");
 
     const handleClearUsername = () => {
-        setUsername(""); // Xóa toàn bộ giá trị trong TextInput
+        setUsername("");
     };
-
-    const updateState = (value) => {
+    const handleClearIdentification = () => {
+        setidentification("");
+    };
+    const nav = useNavigation();
+    const updateStatName = (value) => {
         setUsername(value);
     };
-    const dispatcher = useContext(MyDispatcherContext);
-    const nav = useNavigation();
+    const updateStateIdentification = (value) => {
+        setidentification(value);
+    };
     const [loading, setLoading] = React.useState(false);
 
-    const login = async () => {
+    const checkValid = async () => {
         setLoading(true);
 
         const payload = {
-            username,
-            password,
-            client_id: "av1G6O4bx9Ss23c3ME8YCZdVqkkd34f93h4lYfpd",
-            client_secret:
-                "5FrSsCZAU0YkXTglw2vmeQI2YnzGKQTg11Ng4P0nyoB5UfRUlXddjLWZaRZUBs9Ot2LoyS2WaerHJzrEXXXH1vmIRitfd6Pl5vvTxJR51dYZfayG75kOkIl9DRlXqPxu",
-            grant_type: "password",
+            name_people: username,
+            identification_card: identification,
         };
 
         let esc = encodeURIComponent;
@@ -62,43 +59,36 @@ const LoginScreen = ({ navigation }) => {
         try {
             let res = await APIs({
                 method: "post",
-                url: endpoints.login,
+                url: endpoints.postInfoUser,
                 withCredentials: true,
                 crossdomain: true,
                 data: query,
             });
             console.info(res.data);
-            AsyncStorage.setItem("access_token", res.data.access_token);
 
-            setTimeout(async () => {
-                let token = await AsyncStorage.getItem("access_token");
-                let user = await authAPI(token).get(endpoints["getUser"]);
-                await AsyncStorage.setItem("user", JSON.stringify(user.data));
-                dispatcher({
-                    type: "login",
-                    payload: user.data,
-                });
-
-                if (user.data.change_password_required === true) {
-                    nav.navigate("Home", user.data);
-                } else {
-                    // console.log(user.data);
-                    nav.navigate("ChangInfo", {
-                        user: user,
-                        token: token,
-                    });
-                }
-            }, 100);
-        } catch (ex) {
-            if (ex.response) {
-                if (ex.response.status === 400) {
+            if (res.status === 200) {
+                nav.navigate("EditPass");
+            }
+        } catch (error) {
+            if (error.response) {
+                // Kiểm tra status code trả về
+                if (error.response.status === 404) {
                     setErrorMessage(true); // Hiển thị thông báo lỗi
+                    setTimeout(() => {
+                        setErrorMessage(false); // Ẩn thông báo lỗi sau 30 giây
+                    }, 30000); // 30 giây
+                } else {
+                    console.log("Error:", error.response.status);
                 }
+            } else {
+                // Xử lý các lỗi không có response, ví dụ như lỗi mạng
+                console.log("Error:", error.message);
             }
         } finally {
             setLoading(false);
         }
     };
+
     return (
         <ImageBackground
             style={myStyles.container}
@@ -111,32 +101,30 @@ const LoginScreen = ({ navigation }) => {
                     style={styles.container}
                 >
                     <View style={styles.top}>
-                        <Text style={styles.TextTop}>Đăng nhập</Text>
+                        <Text style={styles.TextTop}>Quên tài khoản</Text>
                     </View>
                     <View style={styles.top2}>
                         <Text style={styles.TextTop2}>
-                            Chào bạn đến với chung cư
+                            Nhập thông tin để lấy lại tài khoản
                         </Text>
-                        <Text style={styles.TextTop2}>Hiền Vy</Text>
                         <TextInput.Icon
-                            icon="hand-wave"
+                            icon="lock"
                             color="gold"
                             marginTop={16}
                             size={26}
                         />
                     </View>
-                    <View style={styles.inputfather}>
+                    <View style={styles.inputfatherForgot}>
                         {errorMessage && (
                             <Text style={[styles.TextTop3, { color: "red" }]}>
-                                Bạn nhập sai tên đăng nhập hoặc mật khẩu, hãy
-                                thử lại!!!!
+                                Bạn nhập sai thông tin tài khoản, hãy nhập lại
                             </Text>
                         )}
                         <TextInput
                             style={styles.input}
-                            label="Tên đăng nhập"
+                            label="Họ và tên (tên cccd)"
                             value={username}
-                            onChangeText={(t) => updateState(t)}
+                            onChangeText={(t) => updateStatName(t)}
                             right={
                                 <TextInput.Icon
                                     icon="alpha-x"
@@ -146,50 +134,47 @@ const LoginScreen = ({ navigation }) => {
                         />
                         <TextInput
                             style={styles.input}
-                            label="Password"
-                            secureTextEntry={!isPasswordVisible} // Đảo ngược secureTextEntry dựa trên trạng thái của mật khẩu
-                            value={password}
-                            onChangeText={(text) => setPassword(text)}
+                            label="Số căn cước công dân"
+                            value={identification}
+                            onChangeText={(t) => updateStateIdentification(t)}
                             right={
                                 <TextInput.Icon
-                                    icon={isPasswordVisible ? "eye-off" : "eye"}
-                                    onPress={handleTogglePasswordVisibility}
+                                    icon="alpha-x"
+                                    onPress={handleClearIdentification}
                                 />
                             }
                         />
                         <TouchableOpacity
                             onPress={() => {
-                                navigation.navigate("ForgotAccount");
+                                navigation.navigate("Login");
                             }}
                         >
                             <Text style={[styles.ForgotPass]}>
-                                Quên mật khẩu?
+                                Đến trang đăng nhập?
                             </Text>
                         </TouchableOpacity>
                     </View>
                     <View
                         style={[
-                            styles.btnLoginfather,
-                            isPressed && styles.btnLoginfatherPressed,
+                            styles.btnDoneF,
+                            // isPressed && styles.btnLoginfatherPressed,
                         ]}
                     ></View>
                 </KeyboardAvoidingView>
             </ScrollView>
-            <View style={[styles.btnLoginChildP]}>
-                <Button
-                    style={[
-                        styles.btnLoginChild,
-                        isPressed && styles.btnLoginfatherPressed,
-                    ]}
-                    loading={loading}
-                    icon={"account"}
-                    onPress={login}
-                >
-                    Đăng nhập
-                </Button>
-            </View>
+            <Button
+                style={[
+                    styles.btnDone,
+                    isPressed && styles.btnLoginfatherPressed,
+                ]}
+                loading={loading}
+                icon={"check"}
+                onPress={checkValid}
+            >
+                Xong
+            </Button>
         </ImageBackground>
     );
 };
 
-export default LoginScreen;
+export default ForgotAccountScreen;
