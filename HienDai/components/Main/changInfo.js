@@ -17,10 +17,10 @@ import * as React from "react";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import APIs, { endpoints } from "../../configs/APIs";
+import { MyUserContext } from "../../configs/Contexts";
 
-const ChangInfo = ({ route }) => {
-    const { user, token } = route.params;
-    console.log("route: " + token);
+const ChangInfo = () => {
+    const user = React.useContext(MyUserContext);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const handleTogglePasswordVisibility = () => {
         setIsPasswordVisible(!isPasswordVisible); // Đảo ngược trạng thái của mật khẩu (hiển thị hoặc ẩn đi)
@@ -62,16 +62,16 @@ const ChangInfo = ({ route }) => {
             console.log("Vô được tới đây");
             let res = await APIs({
                 method: "patch",
-                url: endpoints.home(user.data.id),
+                url: endpoints.home(user.id),
                 withCredentials: true,
                 crossdomain: true,
                 data: query,
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${user.token}`,
                 },
             });
             console.log("Không Vô được tới đây");
-            nav.navigate("Home", user.data);
+            nav.navigate("HomeScreen");
         } catch (error) {
             if (error.response) {
                 // Kiểm tra status code trả về

@@ -8,6 +8,9 @@ export const endpoints = {
     getUser: "User/get_user/",
     postInfoUser: "Info/create_passForgot/",
     changPass: "Info/reset_password/",
+    carCard: "CarCard/update_card/",
+    deleteCarCard: "CarCard/dalete_card/",
+    ListCarCardOfUser: "CarCard/get_card/",
 };
 
 export const authAPI = (token) => {

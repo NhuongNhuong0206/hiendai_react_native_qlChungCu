@@ -10,7 +10,13 @@ import { MyUserReducer } from "./configs/Reducers";
 import ForgotAccountScreen from "./components/Login/forgotAccount";
 import ChangInfo from "./components/Main/changInfo";
 import EditPass from "./components/Main/editPass";
-
+import Service from "./components/utilitys/Service";
+import Input from "./components/share/Input";
+import Hearder from "./components/share/Header";
+import Card from "./components/utilitys/Card";
+import DeleteCarCard from "./components/utilitys/deleteCarCard";
+import Footer from "./components/share/footer";
+import InfoUser from "./components/share/InfoUser";
 const MyStack = () => {
     return (
         <Stack.Navigator
@@ -23,9 +29,15 @@ const MyStack = () => {
                 name="ForgotAccount"
                 component={ForgotAccountScreen}
             />
-
             <Stack.Screen name="EditPass" component={EditPass} />
-            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="HomeScreen" component={HomeScreen} />
+            <Stack.Screen name="Service" component={Service} />
+            <Stack.Screen name="Card" component={Card} />
+            <Stack.Screen name="DeleteCarCard" component={DeleteCarCard} />
+            <Stack.Screen name="Input" component={Input} />
+            <Stack.Screen name="Hearder" component={Hearder} />
+            <Stack.Screen name="Footer" component={Footer} />
+            <Stack.Screen name="InfoUser" component={InfoUser} />
         </Stack.Navigator>
     );
 };
@@ -43,7 +55,7 @@ const App = () => {
             </MyUserContext.Provider>
         </NavigationContainer>
         // <View>
-        //     <EditPass />
+        //     <Card />
         // </View>
     );
 };

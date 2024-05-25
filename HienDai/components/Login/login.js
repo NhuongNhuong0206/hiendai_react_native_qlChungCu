@@ -37,6 +37,7 @@ const LoginScreen = ({ navigation }) => {
         setUsername(value);
     };
     const dispatcher = useContext(MyDispatcherContext);
+
     const nav = useNavigation();
     const [loading, setLoading] = React.useState(false);
 
@@ -67,7 +68,6 @@ const LoginScreen = ({ navigation }) => {
                 crossdomain: true,
                 data: query,
             });
-            console.info(res.data);
             AsyncStorage.setItem("access_token", res.data.access_token);
 
             setTimeout(async () => {
@@ -76,11 +76,11 @@ const LoginScreen = ({ navigation }) => {
                 await AsyncStorage.setItem("user", JSON.stringify(user.data));
                 dispatcher({
                     type: "login",
-                    payload: user.data,
+                    payload: { ...user.data, token },
                 });
 
                 if (user.data.change_password_required === true) {
-                    nav.navigate("Home", user.data);
+                    nav.navigate("HomeScreen");
                 } else {
                     // console.log(user.data);
                     nav.navigate("ChangInfo", {
@@ -90,11 +90,7 @@ const LoginScreen = ({ navigation }) => {
                 }
             }, 100);
         } catch (ex) {
-            if (ex.response) {
-                if (ex.response.status === 400) {
-                    setErrorMessage(true); // Hiển thị thông báo lỗi
-                }
-            }
+            console.error(ex);
         } finally {
             setLoading(false);
         }
@@ -191,5 +187,4 @@ const LoginScreen = ({ navigation }) => {
         </ImageBackground>
     );
 };
-
 export default LoginScreen;

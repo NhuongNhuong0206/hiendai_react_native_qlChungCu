@@ -1,4 +1,4 @@
-import { Button, Avatar, Text, TextInput } from "react-native-paper";
+import { Button, Text, TextInput } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import {
     Image,
@@ -17,6 +17,7 @@ import * as React from "react";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import APIs, { endpoints } from "../../configs/APIs";
+import Footer from "../share/footer";
 
 const EditPass = ({ navigation }) => {
     // const infoCode = route.params;

@@ -10,17 +10,17 @@ export default StyleSheet.create({
         marginTop: 20,
         height: 40,
         width: "100%",
-        //backgroundColor: "red",
         display: "flex",
         flexDirection: "row",
-        justifyContent: "space-between",
+        // justifyContent: "space-between",
         alignItems: "center",
         paddingLeft: 20,
         paddingRight: 20,
     },
     nameHome: {
+        marginTop: 20,
+        flex: 1,
         alignSelf: "center",
-        alignItems: "center",
         fontSize: 28,
         fontWeight: "bold",
         color: "#dcd3d1",
@@ -121,8 +121,8 @@ export default StyleSheet.create({
     },
     utilitiesChild: {
         backgroundColor: "#201e20",
-        width: "48%",
-        height: 80,
+        width: "49%",
+        height: 120,
         borderRadius: 20,
         display: "flex",
         flexDirection: "row",
@@ -140,7 +140,7 @@ export default StyleSheet.create({
     },
     utilitiesText: {
         marginLeft: 54,
-        fontSize: 16,
+        fontSize: 18,
         color: "#dedbde",
     },
     bottom: {
@@ -238,5 +238,15 @@ export default StyleSheet.create({
     TextTop3: {
         alignSelf: "center",
         marginTop: 20,
+    },
+    btnLoginChildP: {
+        backgroundColor: "#d6dce9",
+        width: "50%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        bottom: 20,
+        alignSelf: "center",
+        borderRadius: 20,
     },
 });

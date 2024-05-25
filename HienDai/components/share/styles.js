@@ -19,12 +19,13 @@ export default StyleSheet.create({
         paddingRight: 20,
     },
     nameHome: {
-        alignSelf: "center",
-        alignItems: "center",
+        height: "100%",
+        textAlign: "center",
         fontSize: 28,
         fontWeight: "bold",
         color: "#dcd3d1",
         marginLeft: 20,
+        marginTop: 20,
     },
     ringNumber: {
         position: "absolute",
@@ -145,25 +146,28 @@ export default StyleSheet.create({
     },
     bottom: {
         width: "100%",
-        height: 60,
-        // backgroundColor: "#403b3e",
+        height: 50,
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        // alignItems: "center",
-        paddingTop: 10,
-        bottom: 0,
+        bottom: 6,
         paddingLeft: 20,
+        paddingRight: 20,
+        // backgroundColor: "red",
     },
     bottomIcon: {
-        width: "25%",
-    },
-    bottomIconChild: {
-        marginLeft: 54,
-        height: 36,
-        width: 64,
+        width: "30%",
+        height: "100%",
+        backgroundColor: "red",
         backgroundColor: "#dcd3d1",
         borderRadius: 20,
+        display: "flex",
+        alignItems: "center",
+        borderColor: "#33333",
+        borderWidth: 2,
+    },
+    bottomIconChild: {
+        marginTop: 30,
     },
 
     btnPressedOpacity: {
@@ -180,8 +184,6 @@ export default StyleSheet.create({
         marginTop: 20,
         width: "70%",
         alignSelf: "center",
-        // marginLeft: 24,
-        // marginRight: 24,
     },
     chooseImg: {
         backgroundColor: "#e6e0ec",
@@ -218,18 +220,10 @@ export default StyleSheet.create({
     btnLoginfatherPressed: {
         opacity: 0.5,
     },
-    // inputcode: {
-    //     backgroundColor: "transparent",
-    //     width: 20,
-    //     borderBottomColor: "red",
-    //     borderBottomWidth: 2,
-    //     marginLeft: 20,
-    // },
-    // PaInput: {
-    //     display: "flex",
-    //     flexDirection: "row",
-    //     alignSelf: "center",
-    // },
+    bottomF: {
+        // alignSelf: "center",
+        paddingTop: 8,
+    },
     inputcode: {
         width: "70%",
         alignSelf: "center",
@@ -238,5 +232,13 @@ export default StyleSheet.create({
     TextTop3: {
         alignSelf: "center",
         marginTop: 20,
+    },
+    text: {
+        color: "#dcd3d1",
+        fontWeight: "bold",
+        fontSize: 20,
+        textAlign: "center",
+        alignSelf: "center",
+        marginTop: 10,
     },
 });
