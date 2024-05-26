@@ -39,8 +39,7 @@ const DeleteCarCard = () => {
                     Authorization: `Bearer ${user.token}`,
                 },
             });
-            //-------------------------------------------------------------------------------
-            setDataListCarCard(res);
+            setDataListCarCard(res.data);
         } catch (ex) {
             Alert.alert("Lỗi"); // Hiển thị thông báo lỗi
         }
@@ -48,61 +47,67 @@ const DeleteCarCard = () => {
     useEffect(() => {
         fetchDataCarCard();
     }, []);
+    // const fields = [
+    //     {
+    //         "userName": DataListCarCard.user,
+
+    //     },
+    // ];
     console.log("Danh sách thẻ: ", DataListCarCard);
-    const CardCar = async () => {
-        setLoading(true);
-        const payload = {
-            area: area,
-        };
-        let esc = encodeURIComponent;
-        let query = Object.keys(payload)
-            .map((k) => esc(k) + "=" + esc(payload[k]))
-            .join("&");
+    // const CardCar = async () => {
+    //     setLoading(true);
+    //     const payload = {
+    //         area: area,
+    //     };
+    //     let esc = encodeURIComponent;
+    //     let query = Object.keys(payload)
+    //         .map((k) => esc(k) + "=" + esc(payload[k]))
+    //         .join("&");
 
-        console.log(query);
+    //     console.log(query);
 
-        try {
-            let res = await APIs({
-                method: "post",
-                url: endpoints.carCard,
-                withCredentials: true,
-                crossdomain: true,
-                data: query,
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
-                },
-            });
+    //     try {
+    //         let res = await APIs({
+    //             method: "post",
+    //             url: endpoints.carCard,
+    //             withCredentials: true,
+    //             crossdomain: true,
+    //             data: query,
+    //             headers: {
+    //                 Authorization: `Bearer ${user.token}`,
+    //             },
+    //         });
 
-            console.log(res.status);
-            if (res.status === 201) {
-                Alert.alert(
-                    "Thành công",
-                    "Đã tạo thẻ gửi xe thành công",
-                    [
-                        {
-                            text: "OK",
-                            onPress: () => nav.navigate("HomeScreen"),
-                        },
-                    ],
-                    { cancelable: false }
-                );
-            }
-        } catch (ex) {
-            Alert.alert(
-                "Không thành công",
-                "Số lượng thẻ vượt quá giới hạn, xoá bớt",
-                [
-                    {
-                        text: "OK",
-                        onPress: () => nav.navigate("HomeScreen"),
-                    },
-                ],
-                { cancelable: false }
-            );
-        } finally {
-            setLoading(false);
-        }
-    };
+    //         console.log(res.status);
+    //         if (res.status === 201) {
+    //             Alert.alert(
+    //                 "Thành công",
+    //                 "Đã tạo thẻ gửi xe thành công",
+    //                 [
+    //                     {
+    //                         text: "OK",
+    //                         onPress: () => nav.navigate("HomeScreen"),
+    //                     },
+    //                 ],
+    //                 { cancelable: false }
+    //             );
+    //         }
+    //     } catch (ex) {
+    //         Alert.alert(
+    //             "Không thành công",
+    //             "Số lượng thẻ vượt quá giới hạn, xoá bớt",
+    //             [
+    //                 {
+    //                     text: "OK",
+    //                     onPress: () => nav.navigate("HomeScreen"),
+    //                 },
+    //             ],
+    //             { cancelable: false }
+    //         );
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
     return (
         <ImageBackground
             style={[styles.container]}
@@ -126,7 +131,7 @@ const DeleteCarCard = () => {
                     style={[isPressed && styles.btnLoginfatherPressed]}
                     loading={loading}
                     icon={"account"}
-                    onPress={CardCar}
+                    // onPress={CardCar}
                 >
                     Gửi
                 </Button>
