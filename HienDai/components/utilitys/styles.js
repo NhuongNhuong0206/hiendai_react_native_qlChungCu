@@ -249,4 +249,72 @@ export default StyleSheet.create({
         alignSelf: "center",
         borderRadius: 20,
     },
+    cardContainer: {
+        flexDirection: "row",
+        padding: 10,
+        margin: 10,
+        backgroundColor: "#fff",
+        borderRadius: 10,
+        shadowColor: "#000",
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        elevation: 5,
+        height: 134,
+        width: "85%",
+        alignSelf: "center",
+    },
+    imageContainer: {
+        justifyContent: "center",
+        alignItems: "center",
+        marginRight: 10,
+    },
+    image: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        borderColor: "#333",
+        borderWidth: 1,
+    },
+    infoContainer: {
+        flex: 1,
+        justifyContent: "center",
+    },
+    userText: {
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    areaText: {
+        fontSize: 14,
+        color: "#666",
+    },
+    complexName: {
+        fontSize: 20,
+        textAlign: "center",
+        fontWeight: "bold",
+        color: "blue",
+    },
+    containerText: {
+        marginTop: 20,
+        alignSelf: "center",
+        width: "85%",
+        backgroundColor: "#fff",
+        padding: 20,
+        borderRadius: 20,
+    },
+    title: {
+        fontWeight: "bold",
+        fontSize: 28,
+        alignSelf: "center",
+        color: "blue",
+    },
+    text: {
+        fontSize: 18,
+        padding: 5,
+    },
+    bottomBtn: {
+        width: "50%",
+        backgroundColor: "red",
+        alignSelf: "center",
+        
+    },
 });

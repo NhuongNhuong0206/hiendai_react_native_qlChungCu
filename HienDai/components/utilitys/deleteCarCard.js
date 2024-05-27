@@ -9,6 +9,8 @@ import {
     View,
     Alert,
     Text,
+    FlatList,
+    Image,
 } from "react-native";
 import styles from "./styles";
 import * as React from "react";
@@ -47,63 +49,37 @@ const DeleteCarCard = () => {
     useEffect(() => {
         fetchDataCarCard();
     }, []);
-    // const fields = [
-    //     {
-    //         "userName": DataListCarCard.user,
+    const renderItemCard = ({ item }) => (
+        <TouchableOpacity
+            style={styles.cardContainer}
+            onPress={() => {
+                nav.navigate("DetailsScreen", { item });
+            }}
+        >
+            <View style={styles.imageContainer}>
+                <Image
+                    source={require("../../assets/loginHome.png")}
+                    style={styles.image}
+                />
+            </View>
+            <View style={styles.infoContainer}>
+                <Text style={styles.complexName}>Hiền Vy Home</Text>
+                <Text style={styles.areaText}>Khu vực gửi xe: {item.area}</Text>
+                <Text style={styles.areaText}>
+                    Loại xe: {item.vehicle_type}
+                </Text>
+                <Text style={styles.areaText}>
+                    Ngày tạo: {item.created_date}
+                </Text>
+            </View>
+        </TouchableOpacity>
+    );
 
-    //     },
-    // ];
     console.log("Danh sách thẻ: ", DataListCarCard);
-    // const CardCar = async () => {
+    // const infoCard = () => {
     //     setLoading(true);
-    //     const payload = {
-    //         area: area,
-    //     };
-    //     let esc = encodeURIComponent;
-    //     let query = Object.keys(payload)
-    //         .map((k) => esc(k) + "=" + esc(payload[k]))
-    //         .join("&");
-
-    //     console.log(query);
-
     //     try {
-    //         let res = await APIs({
-    //             method: "post",
-    //             url: endpoints.carCard,
-    //             withCredentials: true,
-    //             crossdomain: true,
-    //             data: query,
-    //             headers: {
-    //                 Authorization: `Bearer ${user.token}`,
-    //             },
-    //         });
-
-    //         console.log(res.status);
-    //         if (res.status === 201) {
-    //             Alert.alert(
-    //                 "Thành công",
-    //                 "Đã tạo thẻ gửi xe thành công",
-    //                 [
-    //                     {
-    //                         text: "OK",
-    //                         onPress: () => nav.navigate("HomeScreen"),
-    //                     },
-    //                 ],
-    //                 { cancelable: false }
-    //             );
-    //         }
-    //     } catch (ex) {
-    //         Alert.alert(
-    //             "Không thành công",
-    //             "Số lượng thẻ vượt quá giới hạn, xoá bớt",
-    //             [
-    //                 {
-    //                     text: "OK",
-    //                     onPress: () => nav.navigate("HomeScreen"),
-    //                 },
-    //             ],
-    //             { cancelable: false }
-    //         );
+    //     } catch {
     //     } finally {
     //         setLoading(false);
     //     }
@@ -114,28 +90,18 @@ const DeleteCarCard = () => {
             source={require("../../assets/backgrondLogin.png")}
         >
             <StatusBar barStyle={"light-content"} />
-            <ScrollView>
-                <KeyboardAvoidingView
-                    behavior={Platform.OS === "ios" ? "padding" : "height"}
-                    style={styles.container}
-                >
-                    <Hearder info={"Danh sách thẻ xe đang sử dụng"} />
-                    <TouchableOpacity>
-                        <Text>Tên người sở hữu: {user.username}</Text>
-                        <Text>Khu vực: {user.username}</Text>
-                    </TouchableOpacity>
-                </KeyboardAvoidingView>
-            </ScrollView>
-            <View style={[styles.btnLoginChildP]}>
-                <Button
-                    style={[isPressed && styles.btnLoginfatherPressed]}
-                    loading={loading}
-                    icon={"account"}
-                    // onPress={CardCar}
-                >
-                    Gửi
-                </Button>
-            </View>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={styles.container}
+            >
+                <Hearder info={"Danh sách thẻ xe đang sử dụng"} />
+                <FlatList
+                    data={DataListCarCard}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={renderItemCard}
+                />
+            </KeyboardAvoidingView>
+
             <Footer />
         </ImageBackground>
     );

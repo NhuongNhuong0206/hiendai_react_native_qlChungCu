@@ -22,61 +22,130 @@ import Footer from "../share/footer";
 const Card = () => {
     const [isPressed, setIsPressed] = useState(false);
     const [area, setArea] = useState("");
+    const [vehicle_type, setVehicle_type] = useState("");
     const [loading, setLoading] = React.useState(false);
     const [errorMessage, setErrorMessage] = useState(false);
     const nav = useNavigation();
     const user = useContext(MyUserContext);
     const CardCar = async () => {
         setLoading(true);
-        const payload = {
-            area: area,
-        };
-        let esc = encodeURIComponent;
-        let query = Object.keys(payload)
-            .map((k) => esc(k) + "=" + esc(payload[k]))
-            .join("&");
+        if ((vehicle_type == 1 || vehicle_type == 2) && area != "") {
+            if (vehicle_type == 1) {
+                const payload = {
+                    area: area,
+                    vehicle_type: "Xe máy",
+                };
+                let esc = encodeURIComponent;
+                let query = Object.keys(payload)
+                    .map((k) => esc(k) + "=" + esc(payload[k]))
+                    .join("&");
 
-        console.log(query);
+                console.log(query);
 
-        try {
-            let res = await APIs({
-                method: "post",
-                url: endpoints.carCard,
-                withCredentials: true,
-                crossdomain: true,
-                data: query,
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
-                },
-            });
-
-            console.log(res.status);
-            if (res.status === 201) {
-                Alert.alert(
-                    "Đăng kí thành công",
-                    "Gửi xét duyệt thành công",
-                    [
-                        {
-                            text: "OK",
-                            onPress: () => nav.navigate("HomeScreen"),
+                try {
+                    let res = await APIs({
+                        method: "post",
+                        url: endpoints.carCard,
+                        withCredentials: true,
+                        crossdomain: true,
+                        data: query,
+                        headers: {
+                            Authorization: `Bearer ${user.token}`,
                         },
-                    ],
-                    { cancelable: false }
-                );
+                    });
+                    if (res.status === 201) {
+                        Alert.alert(
+                            "Đăng kí thành công",
+                            "Gửi xét duyệt thành công",
+                            [
+                                {
+                                    text: "OK",
+                                    onPress: () => nav.navigate("HomeScreen"),
+                                },
+                            ],
+                            { cancelable: false }
+                        );
+                    }
+                } catch (ex) {
+                    Alert.alert(
+                        "Không thành công",
+                        "Số lượng thẻ vượt quá giới hạn, xoá bớt",
+                        [
+                            {
+                                text: "OK",
+                                onPress: () => nav.navigate("DeleteCarCard"),
+                            },
+                        ],
+                        { cancelable: false }
+                    );
+                } finally {
+                    setLoading(false);
+                }
+                console.log("Hãy log ra: ");
+            } else {
+                const payload = {
+                    area: area,
+                    vehicle_type: "Xe ô tô",
+                };
+                let esc = encodeURIComponent;
+                let query = Object.keys(payload)
+                    .map((k) => esc(k) + "=" + esc(payload[k]))
+                    .join("&");
+
+                console.log(query);
+
+                try {
+                    let res = await APIs({
+                        method: "post",
+                        url: endpoints.carCard,
+                        withCredentials: true,
+                        crossdomain: true,
+                        data: query,
+                        headers: {
+                            Authorization: `Bearer ${user.token}`,
+                        },
+                    });
+                    if (res.status === 201) {
+                        Alert.alert(
+                            "Đăng kí thành công",
+                            "Gửi xét duyệt thành công",
+                            [
+                                {
+                                    text: "OK",
+                                    onPress: () => nav.navigate("HomeScreen"),
+                                },
+                            ],
+                            { cancelable: false }
+                        );
+                    }
+                } catch (ex) {
+                    Alert.alert(
+                        "Không thành công",
+                        "Số lượng thẻ vượt quá giới hạn, xoá bớt",
+                        [
+                            {
+                                text: "OK",
+                                onPress: () => nav.navigate("DeleteCarCard"),
+                            },
+                        ],
+                        { cancelable: false }
+                    );
+                } finally {
+                    setLoading(false);
+                }
             }
-        } catch (ex) {
+        } else {
             Alert.alert(
-                "Không thành công",
-                "Số lượng thẻ vượt quá giới hạn, xoá bớt",
+                "Nhập thiếu tên khu vực hoặc sai loại xe",
+                "Nhập tên khu vực và loại xe 1 hoặc 2",
                 [
                     {
                         text: "OK",
-                        onPress: () => nav.navigate("DeleteCarCard"),
+                        onPress: () => nav.navigate("Card"),
                     },
                 ],
                 { cancelable: false }
             );
-        } finally {
             setLoading(false);
         }
     };
@@ -98,6 +167,13 @@ const Card = () => {
                             icon: "car",
                         }}
                         onChangeText={(text) => setArea(text)}
+                    />
+                    <Input
+                        info={{
+                            lable: "1: Xe máy, 2: Xe ô tô. Ví dụ: 1",
+                            icon: "car",
+                        }}
+                        onChangeText={(text) => setVehicle_type(text)}
                     />
                 </KeyboardAvoidingView>
             </ScrollView>

@@ -8,6 +8,7 @@ import {
     ImageBackground,
     StatusBar,
 } from "react-native";
+// import { REACT_APP_CLIENT_ID, REACT_APP_CLIENT_SECRET } from "@env";
 import myStyles from "../../Styles/myStyles";
 import styles from "./styles";
 import { Button, Chip, TextInput } from "react-native-paper";
@@ -40,16 +41,18 @@ const LoginScreen = ({ navigation }) => {
 
     const nav = useNavigation();
     const [loading, setLoading] = React.useState(false);
-
+    // client_id: "av1G6O4bx9Ss23c3ME8YCZdVqkkd34f93h4lYfpd",
+    //             client_secret:
+    //                 "5FrSsCZAU0YkXTglw2vmeQI2YnzGKQTg11Ng4P0nyoB5UfRUlXddjLWZaRZUBs9Ot2LoyS2WaerHJzrEXXXH1vmIRitfd6Pl5vvTxJR51dYZfayG75kOkIl9DRlXqPxu",
     const login = async () => {
         setLoading(true);
 
         const payload = {
             username,
             password,
-            client_id: "av1G6O4bx9Ss23c3ME8YCZdVqkkd34f93h4lYfpd",
+            client_id: "3DAkTbILVMzUtCHF344jXYOF6NpwbXGX262OG3qM",
             client_secret:
-                "5FrSsCZAU0YkXTglw2vmeQI2YnzGKQTg11Ng4P0nyoB5UfRUlXddjLWZaRZUBs9Ot2LoyS2WaerHJzrEXXXH1vmIRitfd6Pl5vvTxJR51dYZfayG75kOkIl9DRlXqPxu",
+                "Kd8coCWcmdmxkuqYcUnGFoF6oxAMPgca88lpkRQeZ4M1FpEaZoG2X8DikCFV9vmtBwIZsNKmQesyJCo2EA7NuVyoSxEa6gyr09llYhx1nOBZmC14UAUQJ61GCKPNOu02",
             grant_type: "password",
         };
 

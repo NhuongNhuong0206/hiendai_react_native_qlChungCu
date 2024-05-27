@@ -23,7 +23,7 @@ const Hearder = (props) => {
                         size={30}
                     />
                 </View>
-                <Text style={[styles.nameHome]}>Hiền Vy</Text>
+                <Text style={[styles.nameHome]}>Hiền Vy Home</Text>
 
                 <View style={[styles.ringNumber]}>
                     <Text style={[styles.ringNum]}>1</Text>
@@ -64,7 +64,9 @@ const Hearder = (props) => {
                     source={require("../../assets/loginHome.png")}
                 />
                 <View style={[styles.introduceHomeText]}>
-                    <Text style={[styles.introduceHomeTextMain]}>123456</Text>
+                    <Text style={[styles.introduceHomeTextMain]}>
+                        Khu chung cư Hiền Vy Home, Quận 1, TP.HCM
+                    </Text>
                     <Text style={[styles.introduceHomeTextNote]}>
                         Hiền Vy Home
                     </Text>

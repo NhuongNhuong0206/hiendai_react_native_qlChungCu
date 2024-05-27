@@ -107,6 +107,9 @@ const HomeScreen = ({ navigation }) => {
                                     styles.utilitiesChild,
                                     isPressed && styles.btnPressedOpacity,
                                 ]}
+                                onPress={() => {
+                                    navigation.navigate("Uses");
+                                }}
                             >
                                 <TextInput.Icon
                                     icon="home-assistant"
@@ -192,7 +195,6 @@ const HomeScreen = ({ navigation }) => {
                                     Giao thông
                                 </Text>
                             </TouchableOpacity>
-                           
                         </View>
                     </View>
                 </KeyboardAvoidingView>

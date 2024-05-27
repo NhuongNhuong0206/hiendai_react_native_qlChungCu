@@ -39,6 +39,7 @@ const ChangInfo = () => {
             const result = await ImagePicker.launchImageLibraryAsync();
             if (!result.canceled)
                 setAvatar_acount((current) => {
+                    console.log(" result.assets[0].uri ", result.assets[0].uri);
                     return { ...current, avatar_acount: result.assets[0].uri };
                 });
         }

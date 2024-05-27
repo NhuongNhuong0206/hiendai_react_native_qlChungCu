@@ -94,9 +94,11 @@ export default StyleSheet.create({
         paddingRight: 120,
     },
     introduceHomeTextMain: {
+        marginLeft: 10,
         color: "#dcd3d1",
     },
     introduceHomeTextNote: {
+        marginLeft: 10,
         color: "#dcd3d1",
     },
     introduceHomeIcon: {
