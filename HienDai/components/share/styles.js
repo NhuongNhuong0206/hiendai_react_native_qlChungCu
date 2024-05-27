@@ -243,4 +243,37 @@ export default StyleSheet.create({
         alignSelf: "center",
         marginTop: 10,
     },
+    contentContainer: {
+        padding: 10,
+        backgroundColor: "#f4f4f4",
+        margin: 20,
+        marginTop:10,
+        borderRadius: 20,
+    },
+    avatar: {
+        alignSelf: "center",
+        marginBottom: 10,
+    },
+    infoContainer: {
+        flexDirection: "row",
+        marginBottom: 10,
+        backgroundColor: "#e8e8e8",
+        borderRadius: 20,
+        padding:6,
+    },
+    label: {
+        fontWeight: "bold",
+        fontSize: 18,
+        textAlign: "center",
+    },
+    value: {
+        fontSize: 16,
+        textAlign: "center",
+    },
+    logoutButton: {
+        marginBottom:40,
+        width: "50%",
+        alignSelf: "center",
+        backgroundColor: "#ed7a7a",
+    },
 });

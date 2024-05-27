@@ -11,6 +11,7 @@ export const endpoints = {
     carCard: "CarCard/update_card/",
     deleteCarCard: "CarCard/delete_card/",
     ListCarCardOfUser: "CarCard/get_card/",
+    getPeople: "user_info_people/get_infopeople/",
 };
 
 export const authAPI = (token) => {

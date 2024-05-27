@@ -41,9 +41,6 @@ const LoginScreen = ({ navigation }) => {
 
     const nav = useNavigation();
     const [loading, setLoading] = React.useState(false);
-    // client_id: "av1G6O4bx9Ss23c3ME8YCZdVqkkd34f93h4lYfpd",
-    //             client_secret:
-    //                 "5FrSsCZAU0YkXTglw2vmeQI2YnzGKQTg11Ng4P0nyoB5UfRUlXddjLWZaRZUBs9Ot2LoyS2WaerHJzrEXXXH1vmIRitfd6Pl5vvTxJR51dYZfayG75kOkIl9DRlXqPxu",
     const login = async () => {
         setLoading(true);
 
@@ -81,7 +78,6 @@ const LoginScreen = ({ navigation }) => {
                     type: "login",
                     payload: { ...user.data, token },
                 });
-
                 if (user.data.change_password_required === true) {
                     nav.navigate("HomeScreen");
                 } else {
@@ -98,6 +94,7 @@ const LoginScreen = ({ navigation }) => {
             setLoading(false);
         }
     };
+
     return (
         <ImageBackground
             style={myStyles.container}

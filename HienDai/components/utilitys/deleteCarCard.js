@@ -21,13 +21,9 @@ import APIs, { authAPI, endpoints } from "../../configs/APIs";
 import { useNavigation } from "@react-navigation/native";
 import { MyUserContext } from "../../configs/Contexts";
 import Footer from "../share/footer";
+import { useFocusEffect } from "@react-navigation/native";
 
 const DeleteCarCard = () => {
-    const [isPressed, setIsPressed] = useState(false);
-    const [area, setArea] = useState("");
-    const [loading, setLoading] = React.useState(false);
-    const [errorMessage, setErrorMessage] = useState(false);
-
     const nav = useNavigation();
     const user = useContext(MyUserContext);
     const [DataListCarCard, setDataListCarCard] = useState({});
@@ -46,9 +42,11 @@ const DeleteCarCard = () => {
             Alert.alert("Lỗi"); // Hiển thị thông báo lỗi
         }
     };
-    useEffect(() => {
-        fetchDataCarCard();
-    }, []);
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchDataCarCard();
+        }, [])
+    );
     const renderItemCard = ({ item }) => (
         <TouchableOpacity
             style={styles.cardContainer}
@@ -75,15 +73,6 @@ const DeleteCarCard = () => {
         </TouchableOpacity>
     );
 
-    console.log("Danh sách thẻ: ", DataListCarCard);
-    // const infoCard = () => {
-    //     setLoading(true);
-    //     try {
-    //     } catch {
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
     return (
         <ImageBackground
             style={[styles.container]}

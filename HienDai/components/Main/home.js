@@ -68,7 +68,7 @@ const HomeScreen = ({ navigation }) => {
                             />
                         </View>
                         <Text style={[styles.helloText]}>
-                            Xin chào, {user.username}
+                            Xin chào, {user ? user.username : "Khách"}
                         </Text>
                     </View>
                     <TouchableOpacity

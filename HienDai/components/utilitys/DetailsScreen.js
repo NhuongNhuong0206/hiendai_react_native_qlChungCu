@@ -33,10 +33,10 @@ const DetailsScreen = ({ route }) => {
         id: item.id,
     };
 
-    // let esc = encodeURIComponent;
-    // let query = Object.keys(payload)
-    //     .map((k) => esc(k) + "=" + esc(payload[k]))
-    //     .join("&");
+    let esc = encodeURIComponent;
+    let query = Object.keys(payload)
+        .map((k) => esc(k) + "=" + esc(payload[k]))
+        .join("&");
 
     const handleDelete = () => {
         Alert.alert(
@@ -51,32 +51,21 @@ const DetailsScreen = ({ route }) => {
                 {
                     text: "OK",
                     onPress: async () => {
-                        // console.log(query);
+                        console.log(query);
                         try {
                             let res = await APIs({
                                 method: "delete",
                                 url: endpoints.deleteCarCard,
                                 data: payload,
-                                // headers: {
-                                //     Authorization: `Bearer ${user.token}`,
-                                //     "Content-Type": "application/json",
-                                // },
+                                headers: {
+                                    Authorization: `Bearer ${user.token}`,
+                                    "Content-Type": "application/json",
+                                },
                             });
-                            // let res = await axios.delete(
-                            //     "https://phanhoangtrieu.pythonanywhere.com/CarCard/delete_card/",
-                            //     {
-                            //         headers: {
-                            //             Authorization: `Bearer ${user.token}`,
-                            //         },
-                            //         data: query,
-                            //     }
-                            // );
-                            console.log("tới đây");
-                            if (res.status === 204) {
-                                console.log("xoá thành công");
+                            if (res.status === 200) {
+                                nav.navigate("DeleteCarCard");
                             }
                         } catch (error) {
-                            // console.error(error.response.data);
                             console.error(error);
                             Alert.alert(
                                 "Xoá lỗi",

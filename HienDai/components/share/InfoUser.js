@@ -1,4 +1,4 @@
-import { Button, TextInput } from "react-native-paper";
+import { Avatar, Button, TextInput } from "react-native-paper";
 import {
     ImageBackground,
     KeyboardAvoidingView,
@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     View,
     Alert,
+    Text,
 } from "react-native";
 import styles from "./styles";
 import * as React from "react";
@@ -16,7 +17,7 @@ import Input from "../share/Input";
 import Hearder from "../share/Header";
 import APIs, { endpoints } from "../../configs/APIs";
 import { useNavigation } from "@react-navigation/native";
-import { MyUserContext } from "../../configs/Contexts";
+import { MyDispatcherContext, MyUserContext } from "../../configs/Contexts";
 import Footer from "../share/footer";
 
 const InfoUser = () => {
@@ -25,61 +26,43 @@ const InfoUser = () => {
     const [loading, setLoading] = React.useState(false);
     const [errorMessage, setErrorMessage] = useState(false);
     const nav = useNavigation();
-    // const user = useContext(MyUserContext);
-    // const CardCar = async () => {
-    //     setLoading(true);
-    //     const payload = {
-    //         area: area,
-    //     };
-    //     let esc = encodeURIComponent;
-    //     let query = Object.keys(payload)
-    //         .map((k) => esc(k) + "=" + esc(payload[k]))
-    //         .join("&");
 
-    //     console.log(query);
+    const user = useContext(MyUserContext);
+    const avatar = user ? user.avatar : "";
+    const token = user ? user.token : null;
+    const dispatcher = useContext(MyDispatcherContext);
+    // useEffect(() => {
+    //     getData();
+    // }, []);
 
-    //     try {
-    //         let res = await APIs({
-    //             method: "post",
-    //             url: endpoints.carCard,
-    //             withCredentials: true,
-    //             crossdomain: true,
-    //             data: query,
-    //             headers: {
-    //                 Authorization: `Bearer ${user.token}`,
-    //             },
-    //         });
+    const handleLogout = () => {
+        dispatcher({
+            type: "logout",
+        });
 
-    //         console.log(res.status);
-    //         if (res.status === 201) {
-    //             Alert.alert(
-    //                 "Đăng kí thành công",
-    //                 "Gửi xét duyệt thành công",
-    //                 [
-    //                     {
-    //                         text: "OK",
-    //                         onPress: () => nav.navigate("HomeScreen"),
-    //                     },
-    //                 ],
-    //                 { cancelable: false }
-    //             );
-    //         }
-    //     } catch (ex) {
-    //         Alert.alert(
-    //             "Không thành công",
-    //             "Số lượng thẻ vượt quá giới hạn, xoá bớt",
-    //             [
-    //                 {
-    //                     text: "OK",
-    //                     onPress: () => nav.navigate("DeleteCarCard"),
-    //                 },
-    //             ],
-    //             { cancelable: false }
-    //         );
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
+        Alert.alert(
+            "Đăng xuất",
+            "Bạn có chắc chắn muốn đăng xuất?",
+            [
+                {
+                    text: "Không",
+                    style: "cancel",
+                },
+                {
+                    text: "Đăng xuất",
+                    onPress: async () => {
+                        nav.replace("Login");
+                    },
+                },
+            ],
+            { cancelable: false }
+        );
+    };
+
+    const handleAvatarPress = () => {
+        Alert.alert("Hình đại diện", "Bạn đã nhấn vào hình đại diện.");
+    };
+
     return (
         <ImageBackground
             style={[styles.container]}
@@ -92,8 +75,52 @@ const InfoUser = () => {
                     style={styles.container}
                 >
                     <Hearder info={"Thông tin cá nhân"} />
+                    <View style={styles.contentContainer}>
+                        <TouchableOpacity onPress={handleAvatarPress}>
+                            <Avatar.Image
+                                size={44}
+                                source={{ uri: avatar }}
+                                style={styles.avatar}
+                            />
+                        </TouchableOpacity>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.label}>Họ và tên: </Text>
+                            <Text style={styles.value}>Nguyễn Thị Hiền Vy</Text>
+                        </View>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.label}>Ngày sinh:</Text>
+                            <Text style={styles.value}></Text>
+                        </View>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.label}>Giới tính:</Text>
+                            <Text style={styles.value}></Text>
+                        </View>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.label}>Số điện thoại:</Text>
+                            <Text style={styles.value}></Text>
+                        </View>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.label}>Ngày hết hạn:</Text>
+                            <Text style={styles.value}></Text>
+                        </View>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.label}>Số căn hộ:</Text>
+                            <Text style={styles.value}></Text>
+                        </View>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.label}>CMND/CCCD:</Text>
+                            <Text style={styles.value}></Text>
+                        </View>
+                    </View>
                 </KeyboardAvoidingView>
             </ScrollView>
+            <Button
+                mode="contained"
+                style={styles.logoutButton}
+                onPress={handleLogout}
+            >
+                Đăng xuất
+            </Button>
             <Footer />
         </ImageBackground>
     );
