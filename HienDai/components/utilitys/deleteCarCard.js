@@ -39,7 +39,20 @@ const DeleteCarCard = () => {
             });
             setDataListCarCard(res.data);
         } catch (ex) {
-            Alert.alert("Lỗi"); // Hiển thị thông báo lỗi
+            console.error(ex);
+            Alert.alert(
+                "Không có thẻ xe",
+                "Quay lại trang chủ",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            nav.navigate("HomeScreen");
+                        },
+                    },
+                ],
+                { cancelable: false }
+            );
         }
     };
     useFocusEffect(

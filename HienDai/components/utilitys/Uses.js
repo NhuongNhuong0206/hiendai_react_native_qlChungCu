@@ -58,7 +58,7 @@ const Uses = () => {
                                     isPressed && styles.btnPressedOpacity,
                                 ]}
                                 onPress={() => {
-                                    nav.navigate("Card");
+                                    nav.navigate("ViewGoodss");
                                 }}
                             >
                                 <TextInput.Icon
@@ -68,7 +68,7 @@ const Uses = () => {
                                     style={[styles.utilitiesIcon]}
                                 />
                                 <Text style={[styles.utilitiesText]}>
-                                    Dịch vụ
+                                    Tủ đồ điện tử
                                 </Text>
                             </TouchableOpacity>
                         </View>

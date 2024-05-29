@@ -47,9 +47,9 @@ const LoginScreen = ({ navigation }) => {
         const payload = {
             username,
             password,
-            client_id: "3DAkTbILVMzUtCHF344jXYOF6NpwbXGX262OG3qM",
+            client_id: "s4c4AVjNer6RHsUSjhS4s9c4mG2liEowTAZ9MNN5",
             client_secret:
-                "Kd8coCWcmdmxkuqYcUnGFoF6oxAMPgca88lpkRQeZ4M1FpEaZoG2X8DikCFV9vmtBwIZsNKmQesyJCo2EA7NuVyoSxEa6gyr09llYhx1nOBZmC14UAUQJ61GCKPNOu02",
+                "MnmgEuhN3HBQIrNjApiDrjxosxAWuKXq86FGtnnwADHTtQ5NYCOqDc4KQvB7gNerkj6XBUOtYOEVXowzYHNTBligyJYXDxGlVhys6ieaaMZmZNJTkZXukNg0CzjosmsV",
             grant_type: "password",
         };
 

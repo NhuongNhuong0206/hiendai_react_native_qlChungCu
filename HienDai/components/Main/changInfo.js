@@ -18,6 +18,7 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import APIs, { endpoints } from "../../configs/APIs";
 import { MyUserContext } from "../../configs/Contexts";
+import { set } from "date-fns";
 
 const ChangInfo = () => {
     const user = React.useContext(MyUserContext);
@@ -25,12 +26,11 @@ const ChangInfo = () => {
     const handleTogglePasswordVisibility = () => {
         setIsPasswordVisible(!isPasswordVisible); // Đảo ngược trạng thái của mật khẩu (hiển thị hoặc ẩn đi)
     };
-    const [avatar_acount, setAvatar_acount] = React.useState({});
     const [isPressed, setIsPressed] = useState(false);
-    const [loading, setLoading] = React.useState(false);
+    const [loading, setLoading] = useState(false);
     const nav = useNavigation();
     const [password, setPassword] = useState("");
-    const formData = new FormData();
+    const [userchag, setuserchag] = useState({});
     const picker = async () => {
         let { status } =
             await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -40,47 +40,37 @@ const ChangInfo = () => {
         } else {
             const result = await ImagePicker.launchImageLibraryAsync();
             if (!result.canceled)
-                setAvatar_acount((current) => {
-                    console.log(" result.assets[0].uri ", result.assets[0].uri);
-
-                    // formData.append("avatar_acount", {
-                    //     uri: result.assets[0].uri,
-                    //     name: "userProfile.jpg",
-                    //     type: "image/jpeg",
-                    // });
-                    return { ...current, avatar_acount: result.assets[0].uri };
+                setuserchag((current) => {
+                    return { ...current, avatar: result.assets[0] };
                 });
         }
     };
 
-    // console.log("formData: ", formData._parts);
     const changInf = async () => {
         setLoading(true);
-        const payload = {
-            password,
-            avatar_acount,
-        };
+        let formData = new FormData();
+        for (let key in userchag)
+            if (key === "avatar")
+                formData.append(key, {
+                    uri: userchag.avatar.uri,
+                    name: userchag.fileName,
+                    type: userchag.type,
+                });
+            else formData.append(key, userchag[key]);
 
-        let esc = encodeURIComponent;
-        let query = Object.keys(payload)
-            .map((k) => esc(k) + "=" + esc(payload[k]))
-            .join("&");
-
-        console.log(query);
-
+        console.log("formData sau khi được append: ", formData);
         try {
             let res = await APIs({
                 method: "patch",
                 url: endpoints.home(user.id),
                 withCredentials: true,
                 crossdomain: true,
-                data: query,
+                formData,
                 headers: {
                     Authorization: `Bearer ${user.token}`,
                 },
             });
-            console.log("Không Vô được tới đây");
-            nav.navigate("HomeScreen");
+            if (res.status === 200) nav.navigate("HomeScreen");
         } catch (error) {
             if (error.response) {
                 // Kiểm tra status code trả về
@@ -100,57 +90,24 @@ const ChangInfo = () => {
             setLoading(false);
         }
     };
-    // =====================================
-    // const [selectedImage, setSelectedImage] = React.useState(null);
-
-    // const pickImage = async () => {
-    //     let result = await ImagePicker.launchImageLibraryAsync({
-    //         mediaTypes: ImagePicker.MediaTypeOptions.All,
-    //         allowsEditing: true,
-    //         aspect: [4, 3],
-    //         quality: 1,
-    //     });
-
-    //     if (!result.cancelled) {
-    //         console.log("Đường dẫn hình ảnh:", result.assets[0].uri);
-
-    //         setSelectedImage(result.assets[0].uri);
-
-    //         const formData = new FormData();
-    //         formData.append("id", "1"); // Thay thế '123' bằng giá trị id thực tế
-    //         formData.append("avatar", {
-    //             uri: result.assets[0].uri,
-    //             name: "userProfile.jpg",
-    //             type: "image/jpge",
-    //         });
-
-    //         try {
-    //             await axios
-    //                 .post(
-    //                     "https://longtocdo107.pythonanywhere.com/users/3/upload_avatar/",
-    //                     formData,
-    //                     {
-    //                         headers: {
-    //                             "Content-Type": "multipart/form-data",
-    //                         },
-    //                     }
-    //                 )
-    //                 .then(function (response) {
-    //                     //handle success
-    //                     console.log("Thanh cong");
-    //                     console.log(response);
-    //                 })
-    //                 .catch(function (response) {
-    //                     console.log("That bai");
-    //                     //handle error
-    //                     console.log(response);
-    //                 });
-    //         } catch (error) {
-    //             console.log("Lỗi upload");
-    //         }
-    //     }
-    // };
-    //--------------------------------------------------
+    const fields = [
+        {
+            lable: "Mật khẩu",
+            icon: "eye-off",
+            secureTextEntry: true,
+            name: "password",
+        },
+    ];
+    const updateState = (field, value) => {
+        console.log("value tại updateState", value);
+        setuserchag((current) => {
+            return {
+                ...current,
+                [field]: value,
+            };
+        });
+        console.log("userchag sau khi setuserchag truyền value ", userchag);
+    };
     return (
         <ImageBackground
             style={[styles.container]}
@@ -168,28 +125,41 @@ const ChangInfo = () => {
                             Cập nhập thông tin trước khi sử dụng dịch vụ
                         </Text>
                     </View>
-                    <TextInput
+                    {fields.map((f) => (
+                        <TextInput
+                            value={userchag[f.name]}
+                            key={f.lable}
+                            style={styles.input}
+                            label={f.lable}
+                            right={<TextInput.Icon icon={f.icon} />}
+                            secureTextEntry={f.secureTextEntry}
+                            onChangeText={(t) => updateState(f.name, t)}
+                        />
+                    ))}
+                    {/* <TextInput
                         style={styles.input}
                         label="Nhập mật khẩu mới"
                         secureTextEntry={!isPasswordVisible} // Đảo ngược secureTextEntry dựa trên trạng thái của mật khẩu
                         value={password}
-                        onChangeText={(text) => setPassword(text)}
+                        onChangeText={(text) => setPassword(text), setuserchag(...current => {
+                                password: password,
+                        })}
                         right={
                             <TextInput.Icon
                                 icon={isPasswordVisible ? "eye-off" : "eye"}
                                 onPress={handleTogglePasswordVisibility}
                             />
                         }
-                    />
+                    /> */}
                     <TouchableOpacity onPress={picker}>
                         <Text style={styles.chooseImg}>
                             Chọn hình đại diện...
                         </Text>
                     </TouchableOpacity>
-                    {avatar_acount?.avatar_acount && (
+                    {userchag?.avatar && (
                         <Image
-                            source={{ uri: avatar_acount.avatar_acount }}
                             style={styles.avatar}
+                            source={{ uri: userchag.avatar.uri }}
                         />
                     )}
                 </KeyboardAvoidingView>
@@ -205,17 +175,6 @@ const ChangInfo = () => {
             >
                 Xong
             </Button>
-            {/* ================================ */}
-
-            {/* <Button onPress={pickImage}>Upload ảnh</Button>
-
-            {selectedImage && (
-                <Image
-                    source={{ uri: selectedImage }}
-                    style={{ width: 200, height: 200 }}
-                />
-            )} */}
-            {/* ==================== */}
         </ImageBackground>
     );
 };

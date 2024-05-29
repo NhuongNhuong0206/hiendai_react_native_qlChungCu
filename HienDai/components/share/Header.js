@@ -17,11 +17,13 @@ const Hearder = (props) => {
         <View>
             <View style={[styles.header]}>
                 <View>
-                    <TextInput.Icon
-                        icon="arrow-left"
-                        color={"#ab9570"}
-                        size={30}
-                    />
+                    <TouchableOpacity >
+                        <TextInput.Icon
+                            icon="arrow-left"
+                            color={"#ab9570"}
+                            size={30}
+                        />
+                    </TouchableOpacity>
                 </View>
                 <Text style={[styles.nameHome]}>Hiền Vy Home</Text>
 

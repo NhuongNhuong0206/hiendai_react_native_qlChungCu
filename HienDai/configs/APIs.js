@@ -12,6 +12,7 @@ export const endpoints = {
     deleteCarCard: "CarCard/delete_card/",
     ListCarCardOfUser: "CarCard/get_card/",
     getPeople: "user_info_people/get_infopeople/",
+    ListGoodssOfUser: "goods/get_goods/",
 };
 
 export const authAPI = (token) => {
