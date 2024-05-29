@@ -88,8 +88,8 @@ const LoginScreen = ({ navigation }) => {
                     });
                 }
             }, 100);
-        } catch (ex) {
-            console.error(ex);
+        } catch (errorMessage) {
+            console.error(errorMessage);
         } finally {
             setLoading(false);
         }

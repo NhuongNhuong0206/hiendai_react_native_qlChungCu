@@ -47,6 +47,7 @@ const ChangInfo = () => {
     };
 
     const changInf = async () => {
+        console.log("userchag sau khi setuserchag truyền value ", userchag);
         setLoading(true);
         let formData = new FormData();
         for (let key in userchag)
@@ -57,19 +58,33 @@ const ChangInfo = () => {
                     type: userchag.type,
                 });
             else formData.append(key, userchag[key]);
-
         console.log("formData sau khi được append: ", formData);
+        const convertArrayToObject = (array) => {
+            return array.reduce((obj, item) => {
+                obj[item[0]] = item[1];
+                return obj;
+            }, {});
+        };
+        const dataObject = convertArrayToObject(formData._parts);
+        console.log(dataObject);
         try {
             let res = await APIs({
                 method: "patch",
                 url: endpoints.home(user.id),
+                // url: "https://c98e-171-243-49-67.ngrok-free.app/User/8/home/",
                 withCredentials: true,
                 crossdomain: true,
-                formData,
+                data: dataObject,
                 headers: {
                     Authorization: `Bearer ${user.token}`,
+                    // Authorization: "Bearer 1tf11iW9QjeoyoQYp710iaZttX1JL6",
+                    "Content-Type": "multipart/form-data",
                 },
             });
+            console.log(
+                "Lần 2 formData sau khi được append: ",
+                formData._parts
+            );
             if (res.status === 200) nav.navigate("HomeScreen");
         } catch (error) {
             if (error.response) {
@@ -80,7 +95,7 @@ const ChangInfo = () => {
                         setErrorMessage(false); // Ẩn thông báo lỗi sau 30 giây
                     }, 30000); // 30 giây
                 } else {
-                    console.log("Error:", error.response.status);
+                    console.log("Error:", error);
                 }
             } else {
                 // Xử lý các lỗi không có response, ví dụ như lỗi mạng
@@ -106,8 +121,8 @@ const ChangInfo = () => {
                 [field]: value,
             };
         });
-        console.log("userchag sau khi setuserchag truyền value ", userchag);
     };
+
     return (
         <ImageBackground
             style={[styles.container]}
@@ -136,21 +151,6 @@ const ChangInfo = () => {
                             onChangeText={(t) => updateState(f.name, t)}
                         />
                     ))}
-                    {/* <TextInput
-                        style={styles.input}
-                        label="Nhập mật khẩu mới"
-                        secureTextEntry={!isPasswordVisible} // Đảo ngược secureTextEntry dựa trên trạng thái của mật khẩu
-                        value={password}
-                        onChangeText={(text) => setPassword(text), setuserchag(...current => {
-                                password: password,
-                        })}
-                        right={
-                            <TextInput.Icon
-                                icon={isPasswordVisible ? "eye-off" : "eye"}
-                                onPress={handleTogglePasswordVisibility}
-                            />
-                        }
-                    /> */}
                     <TouchableOpacity onPress={picker}>
                         <Text style={styles.chooseImg}>
                             Chọn hình đại diện...

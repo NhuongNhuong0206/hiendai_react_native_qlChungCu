@@ -35,12 +35,13 @@ const Card = () => {
                     area: area,
                     vehicle_type: "Xe máy",
                 };
+                console.log("Thẻ xe khi thêm payload: ", payload);
                 let esc = encodeURIComponent;
                 let query = Object.keys(payload)
                     .map((k) => esc(k) + "=" + esc(payload[k]))
                     .join("&");
 
-                console.log(query);
+                console.log("Thẻ xe khi thêm: ", query);
 
                 try {
                     let res = await APIs({
