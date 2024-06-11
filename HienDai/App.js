@@ -19,6 +19,11 @@ import InfoUser from "./components/share/InfoUser";
 import DetailsScreen from "./components/utilitys/DetailsScreen";
 import Uses from "./components/utilitys/Uses";
 import ViewGoodss from "./components/Box.js/view";
+import PaymentScreen from "./components/Payment/pay";
+import BankPayScreen from "./components/BankPay/bankpay";
+import BillPaidScreen from "./components/Payment/billpaid";
+import SeeDetail from "./components/SeeDetals/seedetal";
+
 const MyStack = () => {
     return (
         <Stack.Navigator
@@ -43,6 +48,11 @@ const MyStack = () => {
             <Stack.Screen name="Input" component={Input} />
             <Stack.Screen name="Hearder" component={Hearder} />
             <Stack.Screen name="Footer" component={Footer} />
+            <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
+            <Stack.Screen name="BankPayScreen" component={BankPayScreen} />
+            <Stack.Screen name="BillPaidScreen" component={BillPaidScreen} />
+            <Stack.Screen name="SeeDetail" component={SeeDetail} />
+
         </Stack.Navigator>
     );
 };

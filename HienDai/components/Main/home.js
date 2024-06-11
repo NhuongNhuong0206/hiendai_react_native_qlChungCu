@@ -15,12 +15,19 @@ import { useState, useContext } from "react";
 import { login } from "./../../configs/login_api";
 import { MyUserContext } from "../../configs/Contexts";
 import Footer from "./../share/footer";
+import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = ({ navigation }) => {
+   
     const [isPressed, setIsPressed] = useState(false);
     const [opacity, setOpacity] = useState({}); // State để lưu trữ trạng thái của mỗi view
     const user = useContext(MyUserContext);
     console.log("home: ", user);
+
+    const nav = useNavigation();
+    const handlePaymentPress = () => {
+        nav.navigate('PaymentScreen'); // Điều hướng đến màn hình thanh toán
+    }
 
     return (
         <ImageBackground
@@ -145,19 +152,18 @@ const HomeScreen = ({ navigation }) => {
                             <TouchableOpacity
                                 style={[
                                     styles.utilitiesChild,
-                                    ,
                                     isPressed && styles.btnPressedOpacity,
-                                ]}
-                            >
+                                
+                                ]}     
+                                onPress={handlePaymentPress}
+                            >  
                                 <TextInput.Icon
                                     icon="cash-multiple"
                                     size={28}
                                     color={"#dcd3d1"}
                                     style={[styles.utilitiesIcon]}
                                 />
-                                <Text style={[styles.utilitiesText]}>
-                                    Hoá đơn
-                                </Text>
+                                <Text style={[styles.utilitiesText]}>Hoá đơn</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[
