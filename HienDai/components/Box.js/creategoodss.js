@@ -21,23 +21,73 @@ import axios from "axios";
 import APIs, { authAPI, endpoints } from "../../configs/APIs";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { MyUserContext } from "../../configs/Contexts";
-import Input from './../share/Input';
+import HomeScreen from "../Main/home";
+import Footer from "../share/footer";
+import ViewGoodss from "./view";
 const CreateGoodss = () => {
     // const { item } = route.params;{ route }
     const [loading, setLoading] = React.useState(false);
     const [NameGoodss, setNameGoodss] = useState("");
     const [NoteGoodss, setNoteGoodss] = useState("");
-     const [SizeGoodss, setSizeGoodss] = useState("");
+    const [SizeGoodss, setSizeGoodss] = useState("");
     const nav = useNavigation();
     const user = useContext(MyUserContext);
-    // const payload = {
-    //     // id: item.id,
-    // };
+    const send = async () => {
+        setLoading(true);
 
-    // let esc = encodeURIComponent;
-    // let query = Object.keys(payload)
-    //     .map((k) => esc(k) + "=" + esc(payload[k]))
-    //     .join("&");
+        const payload = {
+            name_goods: NameGoodss,
+            note: NoteGoodss,
+            size: SizeGoodss,
+        };
+        // console.log("Dữ liệu đăng kí nhận hàng (payload): ", payload);
+        let esc = encodeURIComponent;
+        let query = Object.keys(payload)
+            .map((k) => esc(k) + "=" + esc(payload[k]))
+            .join("&");
+
+        // console.log("Dữ liệu đăng kí nhận hàng (query): ", query);
+
+        try {
+            let res = await APIs({
+                method: "post",
+                url: endpoints.createGoodss,
+                withCredentials: true,
+                crossdomain: true,
+                data: query,
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            });
+            if (res.status === 201) {
+                Alert.alert(
+                    "Đăng kí thành công",
+                    "Gửi xét duyệt thành công",
+                    [
+                        {
+                            text: "OK",
+                            onPress: () => nav.navigate(ViewGoodss),
+                        },
+                    ],
+                    { cancelable: false }
+                );
+            }
+        } catch (ex) {
+            Alert.alert(
+                "Chưa nhập đủ thông tin",
+                "Kiểm tra lại",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => nav.navigate(CreateGoodss),
+                    },
+                ],
+                { cancelable: false }
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <ImageBackground
@@ -50,12 +100,8 @@ const CreateGoodss = () => {
                     behavior={Platform.OS === "ios" ? "padding" : "height"}
                     style={styles.container}
                 >
-                    <Hearder info={"Thông tin tủ đồ điện tử"} />
-                    <TouchableOpacity
-                        style={styles.TopBtn}
-                        title="Đăng ý nhận hàng"
-                        onPress={nav.navigate()}
-                    >
+                    <Hearder info={"Nhập thông tin hàng hoá"} />
+                    <View style={[styles.containerText, styles.padding]}>
                         <Input
                             info={{
                                 lable: "Nhập tên hàng",
@@ -65,22 +111,29 @@ const CreateGoodss = () => {
                         />
                         <Input
                             info={{
-                                lable: "Nhập tên hàng",
-                                icon: "gift-outline",
+                                lable: "Kích cỡ hàng hoá",
+                                icon: "emoticon-happy-outline",
                             }}
                             onChangeText={(text) => setNoteGoodss(text)}
                         />
                         <Input
                             info={{
-                                lable: "Nhập tên hàng",
-                                icon: "gift-outline",
+                                lable: "Ghi chú",
+                                icon: "note-edit-outline",
                             }}
                             onChangeText={(text) => setSizeGoodss(text)}
                         />
-                        <Text style={styles.TopBtnText}>Gửi</Text>
-                    </TouchableOpacity>
+                    </View>
                 </KeyboardAvoidingView>
             </ScrollView>
+            <TouchableOpacity
+                style={[styles.TopBtn, styles.margin, styles.color]}
+                title="Gửi"
+                onPress={send}
+            >
+                <Text style={styles.TopBtnText}>Gửi</Text>
+            </TouchableOpacity>
+            <Footer />
         </ImageBackground>
     );
 };

@@ -5,9 +5,9 @@ import * as React from "react";
 import { useState, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { MyUserContext } from "../../configs/Contexts";
-
+import HomeScreen from "../Main/home";
+import InfoUser from './InfoUser';
 const Footer = () => {
-    // const user = useContext(MyUserContext);
     const nav = useNavigation();
     const [isPressed, setIsPressed] = useState(false);
     const [loading, setLoading] = React.useState(false);
@@ -22,7 +22,7 @@ const Footer = () => {
                     loading={loading}
                     icon={"home"}
                     onPress={() => {
-                        nav.navigate("HomeScreen");
+                        nav.navigate(HomeScreen);
                     }}
                 ></Button>
             </View>
@@ -35,7 +35,7 @@ const Footer = () => {
                     loading={loading}
                     icon={"phone"}
                     onPress={() => {
-                        nav.navigate("InfoUser");
+                        nav.navigate(InfoUser);
                     }}
                 ></Button>
             </View>
@@ -48,7 +48,7 @@ const Footer = () => {
                     loading={loading}
                     icon={"account"}
                     onPress={() => {
-                        nav.navigate("InfoUser");
+                        nav.navigate(InfoUser);
                     }}
                 ></Button>
             </View>

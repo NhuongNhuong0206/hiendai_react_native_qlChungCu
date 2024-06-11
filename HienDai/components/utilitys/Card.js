@@ -58,7 +58,7 @@ const Card = () => {
                         Alert.alert(
                             "Đăng kí thành công",
                             "Gửi xét duyệt thành công",
-                            [
+                            [ 
                                 {
                                     text: "OK",
                                     onPress: () => nav.navigate("HomeScreen"),

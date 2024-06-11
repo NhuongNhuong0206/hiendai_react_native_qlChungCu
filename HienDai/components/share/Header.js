@@ -13,16 +13,15 @@ const Hearder = (props) => {
     const backHome = () => {
         navigation.navigate("HomeScreen");
     };
+    const goBack = () => {
+        navigation.goBack();
+    };
     return (
         <View>
             <View style={[styles.header]}>
                 <View>
-                    <TouchableOpacity >
-                        <TextInput.Icon
-                            icon="arrow-left"
-                            color={"#ab9570"}
-                            size={30}
-                        />
+                    <TouchableOpacity style={[styles.goback]} onPress={goBack}>
+                        <Text style={[styles.gobackText]}>{"<-"}</Text>
                     </TouchableOpacity>
                 </View>
                 <Text style={[styles.nameHome]}>Hiền Vy Home</Text>
@@ -49,7 +48,6 @@ const Hearder = (props) => {
                 </View>
                 <Text style={[styles.helloText]}>
                     Xin chào
-                    {/* {user.username} */}
                 </Text>
             </View>
             <TouchableOpacity

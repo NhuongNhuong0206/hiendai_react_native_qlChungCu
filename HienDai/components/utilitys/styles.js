@@ -6,6 +6,10 @@ export default StyleSheet.create({
         height: "100%",
         position: "relative",
     },
+    containerin: {
+
+        height: "94%",
+    },
     header: {
         marginTop: 20,
         height: 40,
@@ -276,7 +280,6 @@ export default StyleSheet.create({
         borderWidth: 1,
     },
     infoContainer: {
-        flex: 1,
         justifyContent: "center",
     },
     userText: {
@@ -315,6 +318,5 @@ export default StyleSheet.create({
         width: "50%",
         backgroundColor: "red",
         alignSelf: "center",
-        
     },
 });

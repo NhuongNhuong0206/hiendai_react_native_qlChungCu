@@ -6,6 +6,19 @@ export default StyleSheet.create({
         height: "100%",
         position: "relative",
     },
+    goback: {
+        width: 40,
+        height: 40,
+        marginTop:20,
+        
+    },
+    gobackText: {
+        marginTop: 5,
+        fontSize: 30,
+        fontWeight: 900,
+        textAlign: "center",
+        color: "#ab9570",
+    },
     header: {
         marginTop: 20,
         height: 40,
@@ -184,7 +197,7 @@ export default StyleSheet.create({
     },
     input: {
         marginTop: 20,
-        width: "70%",
+        width: "80%",
         alignSelf: "center",
     },
     chooseImg: {
@@ -247,7 +260,7 @@ export default StyleSheet.create({
         padding: 10,
         backgroundColor: "#f4f4f4",
         margin: 20,
-        marginTop:10,
+        marginTop: 10,
         borderRadius: 20,
     },
     avatar: {
@@ -259,7 +272,7 @@ export default StyleSheet.create({
         marginBottom: 10,
         backgroundColor: "#e8e8e8",
         borderRadius: 20,
-        padding:6,
+        padding: 6,
     },
     label: {
         fontWeight: "bold",
@@ -271,7 +284,7 @@ export default StyleSheet.create({
         textAlign: "center",
     },
     logoutButton: {
-        marginBottom:40,
+        marginBottom: 40,
         width: "50%",
         alignSelf: "center",
         backgroundColor: "#ed7a7a",

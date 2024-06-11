@@ -16,25 +16,59 @@ import { useState, useContext } from "react";
 import Input from "../share/Input";
 import Hearder from "../share/Header";
 import APIs, { endpoints } from "../../configs/APIs";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { MyDispatcherContext, MyUserContext } from "../../configs/Contexts";
 import Footer from "../share/footer";
+import HomeScreen from "../Main/home";
+import moment from "moment";
 
 const InfoUser = () => {
     const [isPressed, setIsPressed] = useState(false);
     const [area, setArea] = useState("");
     const [loading, setLoading] = React.useState(false);
     const [errorMessage, setErrorMessage] = useState(false);
+    const [dataPeople, setDataPeople] = useState(false);
     const nav = useNavigation();
-
     const user = useContext(MyUserContext);
-    const avatar = user ? user.avatar : "";
-    const token = user ? user.token : null;
+    const avatar = user ? user.avatar_acount : "";
+    const [avatarchang, setAvatarchang] = useState("");
+    console.log("avatar ở info: ", user);
     const dispatcher = useContext(MyDispatcherContext);
-    // useEffect(() => {
-    //     getData();
-    // }, []);
-
+    // -----------------------------------------------------------------------------
+    const fetchDataInforUsser = async () => {
+        try {
+            let res = await APIs({
+                method: "get",
+                url: endpoints.getPeople,
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            });
+            setDataPeople(res.data);
+            console.log("dât people: ", dataPeople);
+        } catch (ex) {
+            console.error(ex);
+            Alert.alert(
+                "Lỗi",
+                "Quay về trang chủ",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            nav.navigate(HomeScreen);
+                        },
+                    },
+                ],
+                { cancelable: false }
+            );
+        }
+    };
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchDataInforUsser();
+        }, [])
+    );
+    // -----------------------------------------------------------------------------
     const handleLogout = () => {
         dispatcher({
             type: "logout",
@@ -59,10 +93,17 @@ const InfoUser = () => {
         );
     };
 
-    const handleAvatarPress = () => {
-        Alert.alert("Hình đại diện", "Bạn đã nhấn vào hình đại diện.");
-    };
+    const picker = async () => {
+        let { status } =
+            await ImagePicker.requestMediaLibraryPermissionsAsync();
 
+        if (status !== "granted") {
+            alert("Permissions denied!");
+        } else {
+            const result = await ImagePicker.launchImageLibraryAsync();
+            if (!result.canceled) setAvatarchang(result.assets[0]);
+        }
+    };
     return (
         <ImageBackground
             style={[styles.container]}
@@ -76,7 +117,7 @@ const InfoUser = () => {
                 >
                     <Hearder info={"Thông tin cá nhân"} />
                     <View style={styles.contentContainer}>
-                        <TouchableOpacity onPress={handleAvatarPress}>
+                        <TouchableOpacity onPress={picker}>
                             <Avatar.Image
                                 size={44}
                                 source={{ uri: avatar }}
@@ -85,31 +126,43 @@ const InfoUser = () => {
                         </TouchableOpacity>
                         <View style={styles.infoContainer}>
                             <Text style={styles.label}>Họ và tên: </Text>
-                            <Text style={styles.value}>Nguyễn Thị Hiền Vy</Text>
+                            <Text style={styles.value}>
+                                {dataPeople.name_people}
+                            </Text>
                         </View>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.label}>Ngày sinh:</Text>
-                            <Text style={styles.value}></Text>
+                            <Text style={styles.label}>Ngày sinh: </Text>
+                            <Text style={styles.value}>
+                                {moment(dataPeople.birthday).format(
+                                    "DD/MM/YYYY"
+                                )}
+                            </Text>
                         </View>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.label}>Giới tính:</Text>
-                            <Text style={styles.value}></Text>
+                            <Text style={styles.label}>Giới tính: </Text>
+                            <Text style={styles.value}>{dataPeople.sex}</Text>
                         </View>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.label}>Số điện thoại:</Text>
-                            <Text style={styles.value}></Text>
+                            <Text style={styles.label}>Số điện thoại: </Text>
+                            <Text style={styles.value}>{dataPeople.phone}</Text>
                         </View>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.label}>Ngày hết hạn:</Text>
-                            <Text style={styles.value}></Text>
+                            <Text style={styles.label}>Ngày hết hạn: </Text>
+                            <Text style={styles.value}>
+                                {dataPeople.expiry}
+                            </Text>
                         </View>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.label}>Số căn hộ:</Text>
-                            <Text style={styles.value}></Text>
+                            <Text style={styles.label}>Số căn hộ: </Text>
+                            <Text style={styles.value}>
+                                {dataPeople.ApartNum}
+                            </Text>
                         </View>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.label}>CMND/CCCD:</Text>
-                            <Text style={styles.value}></Text>
+                            <Text style={styles.label}>CMND/CCCD: </Text>
+                            <Text style={styles.value}>
+                                {dataPeople.identification_card}
+                            </Text>
                         </View>
                     </View>
                 </KeyboardAvoidingView>

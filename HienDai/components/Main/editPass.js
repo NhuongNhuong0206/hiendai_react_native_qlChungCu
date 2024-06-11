@@ -10,20 +10,13 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import myStyles from "../../Styles/myStyles";
 import styles from "./style";
-import axios from "axios";
 import * as React from "react";
 import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 import APIs, { endpoints } from "../../configs/APIs";
-import Footer from "../share/footer";
 
 const EditPass = ({ navigation }) => {
-    // const infoCode = route.params;
-    // console.log("route: " + route);
     const [loading, setLoading] = React.useState(false);
-    // const nav = useNavigation();
     const [errorMessage, setErrorMessage] = useState(false);
     const [code, setCode] = useState("");
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -47,7 +40,6 @@ const EditPass = ({ navigation }) => {
         console.log(query);
 
         try {
-            // console.log("Vô được tới đây");
             let res = await APIs({
                 method: "post",
                 url: endpoints.changPass,
