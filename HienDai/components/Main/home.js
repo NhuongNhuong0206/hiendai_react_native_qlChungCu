@@ -20,6 +20,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = ({ navigation }) => {
+   
     const [isPressed, setIsPressed] = useState(false);
     const user = useContext(MyUserContext);
     const dispatcher = useContext(MyDispatcherContext);
@@ -43,6 +44,11 @@ const HomeScreen = ({ navigation }) => {
     }, []);
 
     console.log("home: ", user);
+
+    const nav = useNavigation();
+    const handlePaymentPress = () => {
+        nav.navigate('PaymentScreen'); // Điều hướng đến màn hình thanh toán
+    }
 
     return (
         <ImageBackground
@@ -159,17 +165,17 @@ const HomeScreen = ({ navigation }) => {
                                 style={[
                                     styles.utilitiesChild,
                                     isPressed && styles.btnPressedOpacity,
-                                ]}
-                            >
+                                
+                                ]}     
+                                onPress={handlePaymentPress}
+                            >  
                                 <TextInput.Icon
                                     icon="cash-multiple"
                                     size={28}
                                     color={"#dcd3d1"}
                                     style={[styles.utilitiesIcon]}
                                 />
-                                <Text style={[styles.utilitiesText]}>
-                                    Hoá đơn
-                                </Text>
+                                <Text style={[styles.utilitiesText]}>Hoá đơn</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[

@@ -21,6 +21,12 @@ import InfoUser from "./components/share/InfoUser";
 import DetailsScreen from "./components/utilitys/DetailsScreen";
 import Uses from "./components/utilitys/Uses";
 import ViewGoodss from "./components/Box.js/view";
+import PaymentScreen from "./components/Payment/pay";
+import BankPayScreen from "./components/BankPay/bankpay";
+import BillPaidScreen from "./components/Payment/billpaid";
+import SeeDetail from "./components/SeeDetals/seedetal";
+
+const MyStack = () => {
 import CreateGoodss from "./components/Box.js/creategoodss";
 import Ideally from "./components/ideally/ideally";
 import IdeaPrivate from "./components/ideally/ideaPrivate";
@@ -57,6 +63,11 @@ const MyStack = ({ userToken }) => {
             <Stack.Screen name="Input" component={Input} />
             <Stack.Screen name="Header" component={Header} />
             <Stack.Screen name="Footer" component={Footer} />
+            <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
+            <Stack.Screen name="BankPayScreen" component={BankPayScreen} />
+            <Stack.Screen name="BillPaidScreen" component={BillPaidScreen} />
+            <Stack.Screen name="SeeDetail" component={SeeDetail} />
+
         </Stack.Navigator>
     );
 };

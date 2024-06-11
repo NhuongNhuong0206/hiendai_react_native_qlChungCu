@@ -46,6 +46,7 @@ const ChangInfo = () => {
     const changInf = async () => {
         setLoading(true);
         let formData = new FormData();
+
         formData.append("password", password);
         if (avatar) {
             console.log("avatar: ", avatar);
@@ -58,8 +59,6 @@ const ChangInfo = () => {
 
         console.log("form: ", formData._parts);
         try {
-            
-
             let res = await axios.post(
                 "https://phanhoangtrieu.pythonanywhere.com/User/upload_avatar/",
                 formData,
@@ -83,8 +82,6 @@ const ChangInfo = () => {
             setLoading(false);
         }
     };
-    
-
     return (
         <ImageBackground
             style={[styles.container]}
@@ -102,7 +99,6 @@ const ChangInfo = () => {
                             Cập nhập thông tin trước khi sử dụng dịch vụ
                         </Text>
                     </View>
-                   
                     <TextInput
                         style={styles.input}
                         label="Password"
