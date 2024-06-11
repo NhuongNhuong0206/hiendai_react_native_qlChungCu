@@ -1,3 +1,4 @@
+
 import {
     View,
     Text,
@@ -7,17 +8,17 @@ import {
     Platform,
     ImageBackground,
     StatusBar,
+    ActivityIndicator,
 } from "react-native";
-// import { REACT_APP_CLIENT_ID, REACT_APP_CLIENT_SECRET } from "@env";
 import myStyles from "../../Styles/myStyles";
 import styles from "./styles";
-import { Button, Chip, TextInput } from "react-native-paper";
+import { Button, TextInput } from "react-native-paper";
 import React, { useContext, useState } from "react";
 import APIs, { authAPI, endpoints } from "../../configs/APIs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import backgroundLogin from "../../assets/backgrondLogin.png";
 import { MyDispatcherContext } from "../../configs/Contexts";
 import { useNavigation } from "@react-navigation/native";
+import HomeScreen from "../Main/home";
 
 const LoginScreen = ({ navigation }) => {
     const [errorMessage, setErrorMessage] = useState(false);
@@ -40,16 +41,17 @@ const LoginScreen = ({ navigation }) => {
     const dispatcher = useContext(MyDispatcherContext);
 
     const nav = useNavigation();
-    const [loading, setLoading] = React.useState(false);
+    const [loading, setLoading] = useState(false);
+
     const login = async () => {
         setLoading(true);
+        setErrorMessage(false);
 
         const payload = {
             username,
             password,
-            client_id: "s4c4AVjNer6RHsUSjhS4s9c4mG2liEowTAZ9MNN5",
-            client_secret:
-                "MnmgEuhN3HBQIrNjApiDrjxosxAWuKXq86FGtnnwADHTtQ5NYCOqDc4KQvB7gNerkj6XBUOtYOEVXowzYHNTBligyJYXDxGlVhys6ieaaMZmZNJTkZXukNg0CzjosmsV",
+            client_id: process.env.REACT_APP_CLIENT_ID,
+            client_secret: process.env.REACT_APP_CLIENT_SECRET,
             grant_type: "password",
         };
 
@@ -57,8 +59,6 @@ const LoginScreen = ({ navigation }) => {
         let query = Object.keys(payload)
             .map((k) => esc(k) + "=" + esc(payload[k]))
             .join("&");
-
-        console.log(query);
 
         try {
             let res = await APIs({
@@ -68,7 +68,8 @@ const LoginScreen = ({ navigation }) => {
                 crossdomain: true,
                 data: query,
             });
-            AsyncStorage.setItem("access_token", res.data.access_token);
+
+            await AsyncStorage.setItem("access_token", res.data.access_token);
 
             setTimeout(async () => {
                 let token = await AsyncStorage.getItem("access_token");
@@ -79,17 +80,17 @@ const LoginScreen = ({ navigation }) => {
                     payload: { ...user.data, token },
                 });
                 if (user.data.change_password_required === true) {
-                    nav.navigate("HomeScreen");
+                    nav.navigate(HomeScreen);
                 } else {
-                    // console.log(user.data);
                     nav.navigate("ChangInfo", {
-                        user: user,
+                        user: user.data,
                         token: token,
                     });
                 }
             }, 100);
-        } catch (errorMessage) {
-            console.error(errorMessage);
+        } catch (error) {
+            setErrorMessage(true);
+            console.error(error);
         } finally {
             setLoading(false);
         }
@@ -143,7 +144,7 @@ const LoginScreen = ({ navigation }) => {
                         <TextInput
                             style={styles.input}
                             label="Password"
-                            secureTextEntry={!isPasswordVisible} // Đảo ngược secureTextEntry dựa trên trạng thái của mật khẩu
+                            secureTextEntry={!isPasswordVisible}
                             value={password}
                             onChangeText={(text) => setPassword(text)}
                             right={
@@ -158,7 +159,7 @@ const LoginScreen = ({ navigation }) => {
                                 navigation.navigate("ForgotAccount");
                             }}
                         >
-                            <Text style={[styles.ForgotPass]}>
+                            <Text style={styles.ForgotPass}>
                                 Quên mật khẩu?
                             </Text>
                         </TouchableOpacity>
@@ -171,7 +172,7 @@ const LoginScreen = ({ navigation }) => {
                     ></View>
                 </KeyboardAvoidingView>
             </ScrollView>
-            <View style={[styles.btnLoginChildP]}>
+            <View style={styles.btnLoginChildP}>
                 <Button
                     style={[
                         styles.btnLoginChild,

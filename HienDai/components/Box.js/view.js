@@ -24,26 +24,17 @@ import { MyUserContext } from "../../configs/Contexts";
 import Footer from "../share/footer";
 import { it } from "date-fns/locale/it";
 import HomeScreen from "../Main/home";
+import CreateGoodss from "./creategoodss";
+import moment from "moment";
 const ViewGoodss = () => {
-    // const { item } = route.params;{ route }
-    const [loading, setLoading] = React.useState(false);
-
+    const [reload, setReload] = useState(false);
     const nav = useNavigation();
     const user = useContext(MyUserContext);
     const [DataListBox, setDataListBox] = useState({});
-    // const payload = {
-    //     // id: item.id,
-    // };
-
-    // let esc = encodeURIComponent;
-    // let query = Object.keys(payload)
-    //     .map((k) => esc(k) + "=" + esc(payload[k]))
-    //     .join("&");
-
     useFocusEffect(
         React.useCallback(() => {
             fetchDataBox();
-        }, [])
+        }, [reload])
     );
     const fetchDataBox = async () => {
         try {
@@ -64,7 +55,7 @@ const ViewGoodss = () => {
                     {
                         text: "OK",
                         onPress: () => {
-                            nav.navigate(HomeScreen);
+                            nav.navigate("HomeScreen");
                         },
                     },
                 ],
@@ -83,6 +74,18 @@ const ViewGoodss = () => {
             default:
                 return "#FFFFFF"; // Màu trắng (mặc định)
         }
+    };
+    const changeStatus = async ({ item }) => {
+        setDataListBox((prev) => {
+            const newDataListBox = prev.map((data) => {
+                if (data.id == item.id) {
+                    data.received_Goods = "Người dùng đã nhận được hàng";
+                }
+                return data;
+            });
+
+            return newDataListBox;
+        });
     };
     const renderItemGoodss = ({ item }) => (
         <TouchableOpacity
@@ -105,8 +108,7 @@ const ViewGoodss = () => {
                             {
                                 text: "Rồi",
                                 onPress: () => {
-                                    item.received_Goods ==
-                                        "Người dùng đã nhận được hàng";
+                                    changeStatus({ item });
                                 },
                             },
                         ],
@@ -127,11 +129,16 @@ const ViewGoodss = () => {
                 </Text>
                 <Text style={styles.areaText}>Kích thước: {item.size}</Text>
                 <Text style={styles.areaText}>
-                    Ngày nhận: {item.created_date}
+                    Ngày nhận: {moment(item.created_date).format("DD/MM/YYYY")}
                 </Text>
                 <Text style={styles.areaText}>
                     Trạng thái: {item.received_Goods}
                 </Text>
+                {item.received_Goods === "Đã lấy hàng" && (
+                    <Text style={styles.thank}>
+                        Xác nhận đã lấy hàng khỏi tủ đồ
+                    </Text>
+                )}
             </View>
         </TouchableOpacity>
     );
@@ -152,7 +159,9 @@ const ViewGoodss = () => {
                         <TouchableOpacity
                             style={styles.TopBtn}
                             title="Đăng ý nhận hàng"
-                            onPress={nav.navigate()}
+                            onPress={() => {
+                                nav.navigate(CreateGoodss);
+                            }}
                         >
                             <Text style={styles.TopBtnText}>
                                 + Đăng kí nhận hàng

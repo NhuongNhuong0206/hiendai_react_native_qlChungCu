@@ -31,7 +31,6 @@ const ChangInfo = () => {
     const nav = useNavigation();
     const [password, setPassword] = useState("");
     const [avatar, setAvatar] = useState("");
-    const [userchag, setuserchag] = useState({});
     const picker = async () => {
         let { status } =
             await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -47,20 +46,19 @@ const ChangInfo = () => {
     const changInf = async () => {
         setLoading(true);
         let formData = new FormData();
-       
+
         formData.append("password", password);
         if (avatar) {
             console.log("avatar: ", avatar);
             formData.append("avatar", {
                 uri: avatar.uri,
                 name: avatar.fileName,
-                type: 'image/jpge',
+                type: "image/jpge",
             });
         }
 
         console.log("form: ", formData._parts);
         try {
-
             let res = await axios.post(
                 "https://phanhoangtrieu.pythonanywhere.com/User/upload_avatar/",
                 formData,
@@ -84,8 +82,6 @@ const ChangInfo = () => {
             setLoading(false);
         }
     };
-   
-
     return (
         <ImageBackground
             style={[styles.container]}
@@ -103,19 +99,6 @@ const ChangInfo = () => {
                             Cập nhập thông tin trước khi sử dụng dịch vụ
                         </Text>
                     </View>
-                    {
-                        //fields.map((f) => (
-                        // <TextInput
-                        //     value={userchag[f.name]}
-                        //     key={f.lable}
-                        //     style={styles.input}
-                        //     label={f.lable}
-                        //     right={<TextInput.Icon icon={f.icon} />}
-                        //     secureTextEntry={f.secureTextEntry}
-                        //     onChangeText={(t) => updateState(f.name, t)}
-                        // />
-                        //))
-                    }
                     <TextInput
                         style={styles.input}
                         label="Password"
@@ -158,52 +141,3 @@ const ChangInfo = () => {
 };
 
 export default ChangInfo;
-
-
-
-
-
-// const [selectedImage, setSelectedImage] = React.useState(null);
-
-//   const pickImage = async () => {
-//     let result = await ImagePicker.launchImageLibraryAsync({
-//       mediaTypes: ImagePicker.MediaTypeOptions.All,
-//       allowsEditing: true,
-//       aspect: [4, 3],
-//       quality: 1,
-//     });
-
-//     if (!result.cancelled) {
-//       console.log('Đường dẫn hình ảnh:', result.assets[0].uri);
-      
-//       setSelectedImage(result.assets[0].uri)
-
-//       const formData = new FormData();
-//       formData.append('id', '1'); // Thay thế '123' bằng giá trị id thực tế
-//       formData.append('avatar', {
-//         uri: result.assets[0].uri,
-//         name: 'userProfile.jpg',
-//         type: 'image/jpge',
-//       });
-
-//       try {
-//         await axios.post("https://longtocdo107.pythonanywhere.com/users/3/upload_avatar/", formData, {
-//           headers: {
-//             "Content-Type": "multipart/form-data",
-//           },
-//         }).then(function (response) {
-//           //handle success
-//           console.log('Thanh cong')
-//           console.log(response);
-//         })
-//           .catch(function (response) {
-//             console.log('That bai')
-//             //handle error
-//             console.log(response);
-//           });;
-
-//       } catch (error) {
-//         console.log('Lỗi upload')
-//       }
-//     }
-//   };

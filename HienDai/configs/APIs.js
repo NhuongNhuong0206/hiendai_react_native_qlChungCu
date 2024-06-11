@@ -4,7 +4,8 @@ const BASE_URL = "https://phanhoangtrieu.pythonanywhere.com/";
 
 export const endpoints = {
     login: "o/token/",
-    home: (userId) => `User/${userId}/home/`,
+    // home: (userId) => `User/${userId}/home/`,
+    postAvatar: "User/upload_avatar/",
     getUser: "User/get_user/",
     postInfoUser: "Info/create_passForgot/",
     changPass: "Info/reset_password/",
@@ -13,6 +14,8 @@ export const endpoints = {
     ListCarCardOfUser: "CarCard/get_card/",
     getPeople: "user_info_people/get_infopeople/",
     ListGoodssOfUser: "goods/get_goods/",
+    createGoodss: "goods/create_goods/",
+    changeStatusGoods: (id) => `goods/${id}/Update_items_tatus/`,
 };
 
 export const authAPI = (token) => {

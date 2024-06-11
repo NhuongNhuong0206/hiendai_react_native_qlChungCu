@@ -1,3 +1,4 @@
+
 import { Avatar, Text, TextInput } from "react-native-paper";
 import {
     ImageBackground,
@@ -11,17 +12,37 @@ import {
 import myStyles from "../../Styles/myStyles";
 import styles from "./style";
 import * as React from "react";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { login } from "./../../configs/login_api";
-import { MyUserContext } from "../../configs/Contexts";
+import { MyUserContext, MyDispatcherContext } from "../../configs/Contexts";
 import Footer from "./../share/footer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = ({ navigation }) => {
    
     const [isPressed, setIsPressed] = useState(false);
-    const [opacity, setOpacity] = useState({}); // State để lưu trữ trạng thái của mỗi view
     const user = useContext(MyUserContext);
+    const dispatcher = useContext(MyDispatcherContext);
+
+    useEffect(() => {
+        const checkLoginStatus = async () => {
+            const token = await AsyncStorage.getItem("access_token");
+            if (token) {
+                const userData = await AsyncStorage.getItem("user");
+                if (userData) {
+                    dispatcher({
+                        type: "login",
+                        payload: { ...JSON.parse(userData), token },
+                    });
+                }
+            } else {
+                navigation.navigate("Login");
+            }
+        };
+        checkLoginStatus();
+    }, []);
+
     console.log("home: ", user);
 
     const nav = useNavigation();
@@ -81,7 +102,6 @@ const HomeScreen = ({ navigation }) => {
                     <TouchableOpacity
                         style={[
                             styles.introduceHome,
-                            ,
                             isPressed && styles.btnPressedOpacity,
                         ]}
                     >
@@ -92,19 +112,11 @@ const HomeScreen = ({ navigation }) => {
                         />
                         <View style={[styles.introduceHomeText]}>
                             <Text style={[styles.introduceHomeTextMain]}>
-                                123456
+                                Khu chung cư Hiền Vy Home, Quận 1, TP.HCM
                             </Text>
                             <Text style={[styles.introduceHomeTextNote]}>
                                 Hiền Vy Home
                             </Text>
-                        </View>
-                        <View style={[styles.introduceHomeIcon]}>
-                            <TextInput.Icon
-                                icon="menu-right"
-                                size={50}
-                                color={"#dcd3d1"}
-                                style={[styles.introduceHomeInIcon]}
-                            />
                         </View>
                     </TouchableOpacity>
                     <View style={[styles.utilities]}>
@@ -168,9 +180,11 @@ const HomeScreen = ({ navigation }) => {
                             <TouchableOpacity
                                 style={[
                                     styles.utilitiesChild,
-                                    ,
                                     isPressed && styles.btnPressedOpacity,
                                 ]}
+                                onPress={() => {
+                                    navigation.navigate("ideally");
+                                }}
                             >
                                 <TextInput.Icon
                                     icon="email-outline"
@@ -187,7 +201,6 @@ const HomeScreen = ({ navigation }) => {
                             <TouchableOpacity
                                 style={[
                                     styles.utilitiesChild,
-                                    ,
                                     isPressed && styles.btnPressedOpacity,
                                 ]}
                             >

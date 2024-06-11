@@ -22,6 +22,7 @@ import { useNavigation } from "@react-navigation/native";
 import { MyUserContext } from "../../configs/Contexts";
 import Footer from "../share/footer";
 import { useFocusEffect } from "@react-navigation/native";
+import moment from "moment";
 
 const DeleteCarCard = () => {
     const nav = useNavigation();
@@ -80,7 +81,7 @@ const DeleteCarCard = () => {
                     Loại xe: {item.vehicle_type}
                 </Text>
                 <Text style={styles.areaText}>
-                    Ngày tạo: {item.created_date}
+                    Ngày tạo: {moment(item.created_date).format("DD/MM/YYYY")}
                 </Text>
             </View>
         </TouchableOpacity>
@@ -94,7 +95,7 @@ const DeleteCarCard = () => {
             <StatusBar barStyle={"light-content"} />
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
-                style={styles.container}
+                style={styles.containerin}
             >
                 <Hearder info={"Danh sách thẻ xe đang sử dụng"} />
                 <FlatList

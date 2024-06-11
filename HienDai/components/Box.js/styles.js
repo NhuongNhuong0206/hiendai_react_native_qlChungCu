@@ -328,4 +328,17 @@ export default StyleSheet.create({
         fontSize: 18,
         marginTop: 5,
     },
+    padding: {
+        paddingBottom: 40,
+    },
+    margin: {
+        marginBottom: 20,
+    },
+    thank: {
+        color: "red",
+        fontSize: 10,
+    },
+    color: {
+        backgroundColor: "#00CC33",
+    },
 });

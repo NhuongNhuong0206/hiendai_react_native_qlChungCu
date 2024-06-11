@@ -13,9 +13,6 @@ import styles from "./styles";
 import { Button, Chip, TextInput } from "react-native-paper";
 import React, { useContext, useState } from "react";
 import APIs, { authAPI, endpoints } from "../../configs/APIs";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import backgroundLogin from "../../assets/backgrondLogin.png";
-import { MyDispatcherContext } from "../../configs/Contexts";
 import { useNavigation } from "@react-navigation/native";
 
 const ForgotAccountScreen = ({ navigation }) => {
@@ -157,7 +154,6 @@ const ForgotAccountScreen = ({ navigation }) => {
                     <View
                         style={[
                             styles.btnDoneF,
-                            // isPressed && styles.btnLoginfatherPressed,
                         ]}
                     ></View>
                 </KeyboardAvoidingView>
