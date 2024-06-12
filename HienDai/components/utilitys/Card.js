@@ -58,7 +58,7 @@ const Card = () => {
                         Alert.alert(
                             "Đăng kí thành công",
                             "Gửi xét duyệt thành công",
-                            [ 
+                            [
                                 {
                                     text: "OK",
                                     onPress: () => nav.navigate("HomeScreen"),
@@ -92,8 +92,6 @@ const Card = () => {
                 let query = Object.keys(payload)
                     .map((k) => esc(k) + "=" + esc(payload[k]))
                     .join("&");
-
-                console.log(query);
 
                 try {
                     let res = await APIs({

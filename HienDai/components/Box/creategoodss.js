@@ -11,6 +11,7 @@ import {
     Text,
     FlatList,
     Image,
+    Linking,
 } from "react-native";
 import styles from "./styles";
 import * as React from "react";
@@ -32,49 +33,74 @@ const CreateGoodss = () => {
     const [SizeGoodss, setSizeGoodss] = useState("");
     const nav = useNavigation();
     const user = useContext(MyUserContext);
+    const handleCall = () => {
+        const phoneNumber = process.env.REACT_APP_PHONE; // Số điện thoại bạn muốn gọi
+        Linking.openURL(`tel:${phoneNumber}`);
+    };
     const send = async () => {
-        setLoading(true);
+        if (NameGoodss && NoteGoodss && SizeGoodss) {
+            setLoading(true);
 
-        const payload = {
-            name_goods: NameGoodss,
-            note: NoteGoodss,
-            size: SizeGoodss,
-        };
-        // console.log("Dữ liệu đăng kí nhận hàng (payload): ", payload);
-        let esc = encodeURIComponent;
-        let query = Object.keys(payload)
-            .map((k) => esc(k) + "=" + esc(payload[k]))
-            .join("&");
+            const payload = {
+                name_goods: NameGoodss,
+                note: NoteGoodss,
+                size: SizeGoodss,
+            };
+            console.log("Dữ liệu đăng kí nhận hàng (payload): ", payload);
+            let esc = encodeURIComponent;
+            let query = Object.keys(payload)
+                .map((k) => esc(k) + "=" + esc(payload[k]))
+                .join("&");
 
-        // console.log("Dữ liệu đăng kí nhận hàng (query): ", query);
+            console.log("Dữ liệu đăng kí nhận hàng (query): ", query);
 
-        try {
-            let res = await APIs({
-                method: "post",
-                url: endpoints.createGoodss,
-                withCredentials: true,
-                crossdomain: true,
-                data: query,
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
-                },
-            });
-            if (res.status === 201) {
-                Alert.alert(
-                    "Đăng kí thành công",
-                    "Gửi xét duyệt thành công",
-                    [
-                        {
-                            text: "OK",
-                            onPress: () => nav.navigate(ViewGoodss),
-                        },
-                    ],
-                    { cancelable: false }
-                );
+            try {
+                let res = await APIs({
+                    method: "post",
+                    url: endpoints.createGoodss,
+                    withCredentials: true,
+                    crossdomain: true,
+                    data: query,
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                });
+                if (res.status === 201) {
+                    Alert.alert(
+                        "Đăng kí thành công",
+                        "Gửi xét duyệt thành công",
+                        [
+                            {
+                                text: "OK",
+                                onPress: () => nav.navigate(ViewGoodss),
+                            },
+                        ],
+                        { cancelable: false }
+                    );
+                }
+            } catch (ex) {
+                console.error(ex);
+                if (ex.response.status === 400) {
+                    Alert.alert(
+                        "Bạn chưa có tủ đồ điện tử",
+                        "Liên lạc với ban quản lý",
+                        [
+                            {
+                                text: "OK",
+                                onPress: () => {
+                                    handleCall();
+                                },
+                            },
+                        ],
+                        { cancelable: false }
+                    );
+                }
+            } finally {
+                setLoading(false);
             }
-        } catch (ex) {
+        } else {
             Alert.alert(
-                "Chưa nhập đủ thông tin",
+                "Bạn chưa nhập đủ thông tin",
                 "Kiểm tra lại",
                 [
                     {
@@ -84,8 +110,6 @@ const CreateGoodss = () => {
                 ],
                 { cancelable: false }
             );
-        } finally {
-            setLoading(false);
         }
     };
 

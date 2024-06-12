@@ -9,7 +9,6 @@ import APIs from '../../configs/APIs'; // endpoints không được sử dụng 
 import { MyUserContext } from '../../configs/Contexts';
 
 const getBills = async (token) => {
-    console.log("token get bill" + token);
     try {
         const response = await axios.get('https://phanhoangtrieu.pythonanywhere.com/Bill/get_bill/', {
             headers: {
@@ -18,16 +17,13 @@ const getBills = async (token) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Error fetching bills:', error);
         return null;
     }
 };
 
 const PaymentScreen = () => {
     const user = useContext(MyUserContext);
-    console.log("lấy user" + user);
     const token = user.token;
-    console.log("lấy token" + token);
     const [bills, setBills] = useState([]);
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
@@ -35,10 +31,6 @@ const PaymentScreen = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedBill, setSelectedBill] = useState(null); // Lưu thông tin hóa đơn được chọn
     const [visible, setVisible] = useState(false);
-
-    
-
-    console.log("huhuhu" + selectedBill);
 
     const nav = useNavigation();
     const fetchBills = async () => {
@@ -74,7 +66,6 @@ const PaymentScreen = () => {
 
     const handleMomoPayment = async () => {
         // Xử lý thanh toán qua Momo
-        console.log("id bill momo " + selectedBill.id);
         const payload = {
             id: selectedBill.id,
             total: selectedBill.money,
@@ -85,7 +76,6 @@ const PaymentScreen = () => {
             .map((k) => esc(k) + "=" + esc(payload[k]))
             .join("&");
 
-        console.log(query);
         try {
             const inforPay = await APIs({
                 method: "post",
@@ -94,10 +84,8 @@ const PaymentScreen = () => {
                 crossdomain: true,
                 data: query,
             });
-            console.log("lấy url" + inforPay.data.payUrl);
             const url = inforPay.data.payUrl;
             if (url) {
-                console.log("urllll " + url);
                 // Mở URL trong trình duyệt
                 Linking.openURL(url);
             }
@@ -105,26 +93,20 @@ const PaymentScreen = () => {
             console.error('Error fetching URL:', error);
         }
 
-        console.log('Thanh toán qua Momo');
-        // navigation.navigate('Momopay'); // Điều hướng đến màn hình thanh toán
         closeModal();
     };
 
     const handleZaloPayPayment = async () => {
         // Xử lý thanh toán qua Zalo Pay
-        console.log("id bill ZaloPay " + selectedBill.id);
         const payload = {
             id: selectedBill.id,
             amount: selectedBill.money,
         };
-        console.log(payload);
-
         let esc = encodeURIComponent;
         let query = Object.keys(payload)
             .map((k) => esc(k) + "=" + esc(payload[k]))
             .join("&");
 
-        console.log(query);
         try {
             const inforPay = await APIs({
                 method: "post",
@@ -133,10 +115,8 @@ const PaymentScreen = () => {
                 crossdomain: true,
                 data: query,
             });
-            console.log("lấy url" + inforPay.data.payUrl);
             const url = inforPay.data.order_url;
             if (url) {
-                console.log("urllll " + url);
                 // Mở URL trong trình duyệt
                 Linking.openURL(url);
             }
@@ -144,15 +124,12 @@ const PaymentScreen = () => {
             console.error('Error fetching URL:', error);
         }
 
-        console.log('Thanh toán qua ZaloPay');
         // navigation.navigate('Momopay'); // Điều hướng đến màn hình thanh toán
         closeModal();
     };
 
     const handleBankPayment = async () => {
         // Xử lý thanh toán qua Ngân hàng
-        console.log("Thanh toán qua ngân hàng")
-
         nav.navigate("BankPayScreen", { bill: selectedBill });
         closeModal();
     }

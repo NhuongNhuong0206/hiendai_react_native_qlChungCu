@@ -1,4 +1,3 @@
-
 import { Avatar, Text, TextInput } from "react-native-paper";
 import {
     ImageBackground,
@@ -18,9 +17,11 @@ import { MyUserContext, MyDispatcherContext } from "../../configs/Contexts";
 import Footer from "./../share/footer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import PaymentScreen from "../Payment/pay";
+import map from "../traffic/map";
+import SurveysList from "../reflect/surveys";
 
 const HomeScreen = ({ navigation }) => {
-   
     const [isPressed, setIsPressed] = useState(false);
     const user = useContext(MyUserContext);
     const dispatcher = useContext(MyDispatcherContext);
@@ -47,8 +48,8 @@ const HomeScreen = ({ navigation }) => {
 
     const nav = useNavigation();
     const handlePaymentPress = () => {
-        nav.navigate('PaymentScreen'); // Điều hướng đến màn hình thanh toán
-    }
+        nav.navigate(PaymentScreen); // Điều hướng đến màn hình thanh toán
+    };
 
     return (
         <ImageBackground
@@ -165,17 +166,18 @@ const HomeScreen = ({ navigation }) => {
                                 style={[
                                     styles.utilitiesChild,
                                     isPressed && styles.btnPressedOpacity,
-                                
-                                ]}     
+                                ]}
                                 onPress={handlePaymentPress}
-                            >  
+                            >
                                 <TextInput.Icon
                                     icon="cash-multiple"
                                     size={28}
                                     color={"#dcd3d1"}
                                     style={[styles.utilitiesIcon]}
                                 />
-                                <Text style={[styles.utilitiesText]}>Hoá đơn</Text>
+                                <Text style={[styles.utilitiesText]}>
+                                    Hoá đơn
+                                </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[
@@ -183,7 +185,7 @@ const HomeScreen = ({ navigation }) => {
                                     isPressed && styles.btnPressedOpacity,
                                 ]}
                                 onPress={() => {
-                                    navigation.navigate("ideally");
+                                    navigation.navigate(SurveysList);
                                 }}
                             >
                                 <TextInput.Icon
@@ -203,6 +205,9 @@ const HomeScreen = ({ navigation }) => {
                                     styles.utilitiesChild,
                                     isPressed && styles.btnPressedOpacity,
                                 ]}
+                                onPress={() => {
+                                    navigation.navigate(map);
+                                }}
                             >
                                 <TextInput.Icon
                                     icon="car-back"

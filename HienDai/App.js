@@ -20,19 +20,21 @@ import Footer from "./components/share/footer";
 import InfoUser from "./components/share/InfoUser";
 import DetailsScreen from "./components/utilitys/DetailsScreen";
 import Uses from "./components/utilitys/Uses";
-import ViewGoodss from "./components/Box.js/view";
+import ViewGoodss from "./components/Box/view";
 import PaymentScreen from "./components/Payment/pay";
 import BankPayScreen from "./components/BankPay/bankpay";
 import BillPaidScreen from "./components/Payment/billpaid";
 import SeeDetail from "./components/SeeDetals/seedetal";
-
-const MyStack = () => {
-import CreateGoodss from "./components/Box.js/creategoodss";
+import CreateGoodss from "./components/Box/creategoodss";
 import Ideally from "./components/ideally/ideally";
 import IdeaPrivate from "./components/ideally/ideaPrivate";
 
 import { MyDispatcherContext, MyUserContext } from "./configs/Contexts";
 import { MyUserReducer } from "./configs/Reducers";
+import map from "./components/traffic/map";
+import GoHome from "./components/traffic/goHome";
+import SurveysList from "./components/reflect/surveys";
+import DetailSurveys from "./components/reflect/detailSurveys";
 
 const Stack = createNativeStackNavigator();
 
@@ -54,6 +56,11 @@ const MyStack = ({ userToken }) => {
             <Stack.Screen name="CreateGoodss" component={CreateGoodss} />
             <Stack.Screen name="InfoUser" component={InfoUser} />
             <Stack.Screen name="Service" component={Service} />
+            <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
+            <Stack.Screen name="map" component={map} />
+            <Stack.Screen name="GoHome" component={GoHome} />
+            <Stack.Screen name="SurveysList" component={SurveysList} />
+            <Stack.Screen name="DetailSurveys" component={DetailSurveys} />
             <Stack.Screen name="Ideally" component={Ideally} />
             <Stack.Screen name="Card" component={Card} />
             <Stack.Screen name="DeleteCarCard" component={DeleteCarCard} />
@@ -63,11 +70,9 @@ const MyStack = ({ userToken }) => {
             <Stack.Screen name="Input" component={Input} />
             <Stack.Screen name="Header" component={Header} />
             <Stack.Screen name="Footer" component={Footer} />
-            <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
             <Stack.Screen name="BankPayScreen" component={BankPayScreen} />
             <Stack.Screen name="BillPaidScreen" component={BillPaidScreen} />
             <Stack.Screen name="SeeDetail" component={SeeDetail} />
-
         </Stack.Navigator>
     );
 };

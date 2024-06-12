@@ -49,7 +49,7 @@ const InfoUser = () => {
         } catch (ex) {
             console.error(ex);
             Alert.alert(
-                "Lỗi",
+                "Chưa có người dùng sử dụng tài khoản",
                 "Quay về trang chủ",
                 [
                     {
