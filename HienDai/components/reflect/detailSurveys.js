@@ -115,17 +115,9 @@ const DetailSurveys = ({ route }) => {
                     Authorization: `Bearer ${user.token}`,
                 },
             });
-            // const res = await axios.post(
-            //     "https://4425-171-243-49-117.ngrok-free.app/surveyresponses/",
-            //     payload,
-            //     {
-            //         headers: {
-            //             Authorization: "Bearer AonxnCN1uTnoZ85hbbSZ5Me9QHnJY4",
-            //         },
-            //     }
-            // );
-            Alert.alert("Hoàn thành", "Bạn chắc chắn muốn gửi câu hỏi?", [
-                {
+
+            Alert.alert("Hoàn thành", "Bạn chắc chắn muốn gửi câu trả lời?", [
+   {
                     text: "OK",
                     onPress: () => {
                         if (res.status === 201) {

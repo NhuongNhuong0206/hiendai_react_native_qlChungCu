@@ -1,4 +1,3 @@
-
 import { Avatar, Text, TextInput } from "react-native-paper";
 import {
     Animated,
@@ -22,15 +21,16 @@ import { MyUserContext, MyDispatcherContext } from "../../configs/Contexts";
 import Footer from "./../share/footer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-<<<<<<< Updated upstream
-=======
+
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword  } from "firebase/auth";
 import { auth } from "../../configs/firebase";
 import { Entypo } from "@expo/vector-icons";
->>>>>>> Stashed changes
+
+import PaymentScreen from "../Payment/pay";
+import SurveysList from "../reflect/surveys";
+import MapScr from "../traffic/map";
 
 const HomeScreen = ({ navigation }) => {
-   
     const [isPressed, setIsPressed] = useState(false);
     const user = useContext(MyUserContext);
     const dispatcher = useContext(MyDispatcherContext);
@@ -59,8 +59,6 @@ const HomeScreen = ({ navigation }) => {
     const handlePaymentPress = () => {
         nav.navigate('PaymentScreen'); // Điều hướng đến màn hình thanh toán
     }
-<<<<<<< Updated upstream
-=======
 
     const emailchat = user.email
     const passwordchat = user.id + "123456"
@@ -97,8 +95,6 @@ const HomeScreen = ({ navigation }) => {
             }
         })
     ).current;
-    
->>>>>>> Stashed changes
 
     return (
         <ImageBackground
@@ -215,17 +211,18 @@ const HomeScreen = ({ navigation }) => {
                                 style={[
                                     styles.utilitiesChild,
                                     isPressed && styles.btnPressedOpacity,
-                                
-                                ]}     
+                                ]}
                                 onPress={handlePaymentPress}
-                            >  
+                            >
                                 <TextInput.Icon
                                     icon="cash-multiple"
                                     size={28}
                                     color={"#dcd3d1"}
                                     style={[styles.utilitiesIcon]}
                                 />
-                                <Text style={[styles.utilitiesText]}>Hoá đơn</Text>
+                                <Text style={[styles.utilitiesText]}>
+                                    Hoá đơn
+                                </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[
@@ -233,11 +230,7 @@ const HomeScreen = ({ navigation }) => {
                                     isPressed && styles.btnPressedOpacity,
                                 ]}
                                 onPress={() => {
-<<<<<<< Updated upstream
-                                    navigation.navigate("ideally");
-=======
                                     navigation.navigate("ReflectScreen");
->>>>>>> Stashed changes
                                 }}
                             >
                                 <TextInput.Icon
@@ -261,6 +254,9 @@ const HomeScreen = ({ navigation }) => {
                                     styles.utilitiesChild,
                                     isPressed && styles.btnPressedOpacity,
                                 ]}
+                                onPress={() => {
+                                    navigation.navigate(MapScr);
+                                }}
                             >
                                 <TextInput.Icon
                                     icon="car-back"

@@ -21,10 +21,12 @@ const GoHome = () => {
     const [location, setLocation] = useState(null);
     const [routeCoordinates, setRouteCoordinates] = useState([]);
 
-    const destination = {
-        latitude: 10.8231,
-        longitude: 106.6297,
-    };
+    const [destination, setDestination] = useState({
+        latitude: 10.822242,
+        longitude: 106.690252,
+    });
+
+    const apiKey = process.env.REACT_APP_API_KEY;
 
     useEffect(() => {
         (async () => {
@@ -33,6 +35,8 @@ const GoHome = () => {
                 Alert.alert("Permission to access location was denied");
                 return;
             }
+
+            // Lấy vị trí hiện tại
 
             let location = await Location.getCurrentPositionAsync({});
             setLocation(location);
@@ -43,59 +47,82 @@ const GoHome = () => {
                 longitudeDelta: 0.0421,
             });
 
-            const origin = `${location.coords.latitude},${location.coords.longitude}`;
-            const dest = `${destination.latitude},${destination.longitude}`;
-            const apiKey =
-                "2d97efd6805f534797a72d001fcd7ef709a82cc4c5c0b92832847fca1bc5b252";
-            const response = await axios.get(
-                `https://rsapi.goong.io/Direction?origin=${origin}&destination=${dest}&vehicle=car&api_key=${apiKey}`
+            // Cập nhật tuyến đường từ vị trí hiện tại đến điểm đến
+            updateRoute(location.coords.latitude, location.coords.longitude);
+
+            // Theo dõi vị trí thay đổi theo thời gian thực
+            const locationSubscription = await Location.watchPositionAsync(
+                {
+                    accuracy: Location.Accuracy.High,
+                    timeInterval: 5000, // Cập nhật mỗi 5 giây
+                    distanceInterval: 10, // Cập nhật khi di chuyển 10 mét
+                },
+                (newLocation) => {
+                    setLocation(newLocation);
+                    updateRoute(
+                        newLocation.coords.latitude,
+                        newLocation.coords.longitude
+                    );
+                }
             );
 
-            if (response.data.routes.length) {
-                const points = decodePolyline(
-                    response.data.routes[0].overview_polyline.points
-                );
-                setRouteCoordinates(points);
-            }
+            // Hủy theo dõi vị trí khi component unmount
+            return () => locationSubscription && locationSubscription.remove();
         })();
     }, []);
 
+    // Hàm cập nhật tuyến đường dựa trên vị trí hiện tại
+    const updateRoute = async (latitude, longitude) => {
+        const origin = `${latitude},${longitude}`;
+        const dest = `${destination.latitude},${destination.longitude}`;
+        const response = await axios.get(
+            `https://rsapi.goong.io/Direction?origin=${origin}&destination=${dest}&vehicle=car&api_key=${apiKey}`
+        );
+
+        if (response.data.routes.length) {
+            const points = decodePolyline(
+                response.data.routes[0].overview_polyline.points
+            );
+            setRouteCoordinates(points);
+        }
+    };
+
+    // Hàm giải mã polyline thành tọa độ tuyến đường, t là chuỗi polyline mã hóa
     const decodePolyline = (t) => {
         let points = [];
-        for (let step of t.split("")) {
-            let point = [];
-            let index = 0;
-            let length = t.length;
-            let lat = 0;
-            let lng = 0;
+        let index = 0;
+        let lat = 0;
+        let lng = 0;
 
-            while (index < length) {
-                let b,
-                    shift = 0,
-                    result = 0;
-                do {
-                    b = t.charCodeAt(index++) - 63;
-                    result |= (b & 0x1f) << shift;
-                    shift += 5;
-                } while (b >= 0x20);
-
-                let dlat = result & 1 ? ~(result >> 1) : result >> 1;
-                lat += dlat;
-
-                shift = 0;
+        while (index < t.length) {
+            let b,
+                shift = 0,
                 result = 0;
-                do {
-                    b = t.charCodeAt(index++) - 63;
-                    result |= (b & 0x1f) << shift;
-                    shift += 5;
-                } while (b >= 0x20);
+            do {
+                b = t.charCodeAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
 
-                let dlng = result & 1 ? ~(result >> 1) : result >> 1;
-                lng += dlng;
+            let dlat = result & 1 ? ~(result >> 1) : result >> 1;
+            lat += dlat;
 
-                point = [lat / 1e5, lng / 1e5];
-                points.push({ latitude: point[0], longitude: point[1] });
-            }
+            shift = 0;
+            result = 0;
+            do {
+                b = t.charCodeAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+
+            let dlng = result & 1 ? ~(result >> 1) : result >> 1;
+            lng += dlng;
+
+            points.push({
+                latitude: lat / 1e5,
+                longitude: lng / 1e5,
+            });
+
         }
         return points;
     };
@@ -131,7 +158,7 @@ const GoHome = () => {
                     Linking.openURL(url);
                 }}
             >
-                <Text style={styles.buttonText}>Đi</Text>
+                <Text style={styles.buttonText}>Xem trên google map</Text>
             </TouchableOpacity>
         </View>
     );

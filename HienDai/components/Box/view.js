@@ -76,6 +76,15 @@ const ViewGoodss = () => {
         }
     };
     const changeStatus = async ({ item }) => {
+        console.log("item.id: ", item.id)
+        try {
+            let res = await APIs({
+            method: "patch",
+            url: endpoints.changeStatusGoods(item.id),
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+            },
+        });
         setDataListBox((prev) => {
             const newDataListBox = prev.map((data) => {
                 if (data.id == item.id) {
@@ -86,6 +95,23 @@ const ViewGoodss = () => {
 
             return newDataListBox;
         });
+        } catch(ex) {
+            Alert.alert(
+                "Cập nhập trạng thái bị lỗi",
+                "Lỗi",
+                [
+                    {
+                        text: "OK",
+                        // onPress: () => {
+                        //     nav.navigate("HomeScreen");
+                        // },
+                    },
+                ],
+                { cancelable: false }
+            );
+        }
+        
+        
     };
     const renderItemGoodss = ({ item }) => (
         <TouchableOpacity

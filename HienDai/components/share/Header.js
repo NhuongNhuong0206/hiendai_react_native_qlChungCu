@@ -46,9 +46,7 @@ const Hearder = (props) => {
                 <View style={[styles.helloHeart]}>
                     <TextInput.Icon icon="heart" size={20} color={"#f3b15b"} />
                 </View>
-                <Text style={[styles.helloText]}>
-                    Xin chào
-                </Text>
+                <Text style={[styles.helloText]}>Xin chào</Text>
             </View>
             <TouchableOpacity
                 style={[

@@ -1,11 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert, ImageBackground, RefreshControl } from 'react-native';
-import { Card, Title, Paragraph, Appbar, Button } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
-import { MyUserContext } from '../../configs/Contexts';
-import { format } from 'date-fns';
+import React, { useEffect, useState } from "react";
+import {
+    View,
+    Text,
+    StyleSheet,
+    ScrollView,
+    Alert,
+    ImageBackground,
+    RefreshControl,
+} from "react-native";
+import { Card, Title, Paragraph, Appbar, Button } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import { MyUserContext } from "../../configs/Contexts";
+import { format } from "date-fns";
 import styles from "./style";
+import Footer from "../share/footer";
 
 const BillPaidScreen = () => {
     const user = React.useContext(MyUserContext);
@@ -16,18 +25,18 @@ const BillPaidScreen = () => {
     const token = user.token;
 
     const getBills = async (token) => {
-        console.log("token get bill" + token);
         try {
-            const response = await axios.get('https://phanhoangtrieu.pythonanywhere.com/Bill/get_bill/', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            const response = await axios.get(
+                "https://phanhoangtrieu.pythonanywhere.com/Bill/get_bill/",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             setBills(response.data);
             return response.data;
-        
         } catch (error) {
-            console.error(error);
             Alert.alert(
                 "Lỗi",
                 "Không thể tải danh sách hóa đơn. Vui lòng thử lại sau.",
@@ -43,10 +52,14 @@ const BillPaidScreen = () => {
         setLoading(true);
         const data = await getBills(token);
         if (data) {
-            const unpaidBills = data.filter(bill => bill.status_bill === 'paid ');
+            const unpaidBills = data.filter(
+                (bill) => bill.status_bill === "paid "
+            );
+
+            console.log("unpaidBills: ", unpaidBills);
             setBills(unpaidBills);
         } else {
-            setError('Error fetching bills');
+            setError("Error fetching bills");
         }
         setLoading(false);
         setRefreshing(false); // Dừng hiển thị loading khi yêu cầu hoàn thành
@@ -71,32 +84,56 @@ const BillPaidScreen = () => {
     };
 
     return (
-        <ImageBackground style={styles.container} source={require('../../assets/backgrondLogin.png')}>
+        <ImageBackground
+            style={styles.container}
+            source={require("../../assets/backgrondLogin.png")}
+        >
             <Appbar.Header style={styles.headers}>
-                <Appbar.BackAction onPress={handleGoBack} color="#e8eae1" fontWeight='bold' />
-                <Appbar.Content title="HÓA ĐƠN ĐÃ THANH TOÁN" titleStyle={{ color: "#e8eae1", fontWeight: 'bold' }} />
+                <Appbar.BackAction
+                    onPress={handleGoBack}
+                    color="#e8eae1"
+                    fontWeight="bold"
+                />
+                <Appbar.Content
+                    title="HÓA ĐƠN ĐÃ THANH TOÁN"
+                    titleStyle={{ color: "#e8eae1", fontWeight: "bold" }}
+                />
             </Appbar.Header>
-            <ScrollView 
-                contentContainerStyle={styles.scrollViewContent} 
+            <ScrollView
+                contentContainerStyle={styles.scrollViewContent}
                 style={{ flex: 1 }}
                 refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
                 }
             >
                 {bills.map((bill) => (
                     <Card key={bill.id} style={styles.card}>
                         <Card.Content>
                             <Title style={styles.title}>{bill.name_bill}</Title>
-                            <Paragraph style={styles.money}>Tổng phí: {bill.money} VND</Paragraph>
-                            <Paragraph style={styles.paragraph}>Loại phí: {bill.type_bill}</Paragraph>
+                            <Paragraph style={styles.money}>
+                                Tổng phí: {bill.money} VND
+                            </Paragraph>
                             <Paragraph style={styles.paragraph}>
-                                Ngày thanh toán: {format(new Date(bill.updated_date), 'dd/MM/yyyy')}
+                                Loại phí: {bill.type_bill}
+                            </Paragraph>
+                            <Paragraph style={styles.paragraph}>
+                                Ngày thanh toán:{" "}
+                                {format(
+                                    new Date(bill.updated_date),
+                                    "dd/MM/yyyy"
+                                )}
                             </Paragraph>
                             <Button
                                 mode="contained"
                                 onPress={() => SeeDetails(bill)} // Truyền thông tin hóa đơn khi ấn vào nút
                                 style={styles.paymentButton}
-                                contentStyle={{ height: 40, backgroundColor: '#6b7b95' }} // Tùy chỉnh chiều cao của nút
+                                contentStyle={{
+                                    height: 40,
+                                    backgroundColor: "#6b7b95",
+                                }} // Tùy chỉnh chiều cao của nút
                                 title="Xem chi tiết"
                             >
                                 Xem chi tiết
@@ -105,6 +142,7 @@ const BillPaidScreen = () => {
                     </Card>
                 ))}
             </ScrollView>
+            <Footer />
         </ImageBackground>
     );
 };

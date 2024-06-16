@@ -16,6 +16,9 @@ export const endpoints = {
     ListGoodssOfUser: "goods/get_goods/",
     createGoodss: "goods/create_goods/",
     changeStatusGoods: (id) => `goods/${id}/Update_items_tatus/`,
+    getListSurvey: "surveys/status/",
+    getQS: (id) => `/surveys/${id}/questions/`,
+    postAs: "surveyresponses/",
 };
 
 export const authAPI = (token) => {

@@ -15,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import Hearder from "../share/Header";
 import Footer from "../share/footer";
 
-const ideally = () => {
+const Ideally = () => {
     const [isPressed, setIsPressed] = useState(false);
     const nav = useNavigation();
     return (
@@ -79,4 +79,4 @@ const ideally = () => {
     );
 };
 
-export default ideally;
+export default Ideally;
