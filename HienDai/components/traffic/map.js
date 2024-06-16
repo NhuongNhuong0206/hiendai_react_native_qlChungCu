@@ -23,7 +23,7 @@ import Hearder from "../share/Header";
 import * as Location from "expo-location";
 import GoHome from "./goHome";
 
-const map = () => {
+const MapScr = () => {
     const [isPressed, setIsPressed] = useState(false);
     const user = useContext(MyUserContext);
     const dispatcher = useContext(MyDispatcherContext);
@@ -61,4 +61,4 @@ const map = () => {
     );
 };
 
-export default map;
+export default MapScr;

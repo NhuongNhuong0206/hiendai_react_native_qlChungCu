@@ -18,8 +18,8 @@ import Footer from "./../share/footer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import PaymentScreen from "../Payment/pay";
-import map from "../traffic/map";
 import SurveysList from "../reflect/surveys";
+import MapScr from "../traffic/map";
 
 const HomeScreen = ({ navigation }) => {
     const [isPressed, setIsPressed] = useState(false);
@@ -206,7 +206,7 @@ const HomeScreen = ({ navigation }) => {
                                     isPressed && styles.btnPressedOpacity,
                                 ]}
                                 onPress={() => {
-                                    navigation.navigate(map);
+                                    navigation.navigate(MapScr);
                                 }}
                             >
                                 <TextInput.Icon

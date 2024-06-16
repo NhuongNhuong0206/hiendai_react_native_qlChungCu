@@ -31,10 +31,10 @@ import IdeaPrivate from "./components/ideally/ideaPrivate";
 
 import { MyDispatcherContext, MyUserContext } from "./configs/Contexts";
 import { MyUserReducer } from "./configs/Reducers";
-import map from "./components/traffic/map";
 import GoHome from "./components/traffic/goHome";
 import SurveysList from "./components/reflect/surveys";
 import DetailSurveys from "./components/reflect/detailSurveys";
+import MapScr from "./components/traffic/map";
 
 const Stack = createNativeStackNavigator();
 
@@ -57,7 +57,7 @@ const MyStack = ({ userToken }) => {
             <Stack.Screen name="InfoUser" component={InfoUser} />
             <Stack.Screen name="Service" component={Service} />
             <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
-            <Stack.Screen name="map" component={map} />
+            <Stack.Screen name="MapScr" component={MapScr} />
             <Stack.Screen name="GoHome" component={GoHome} />
             <Stack.Screen name="SurveysList" component={SurveysList} />
             <Stack.Screen name="DetailSurveys" component={DetailSurveys} />
