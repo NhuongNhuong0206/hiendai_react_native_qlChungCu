@@ -115,8 +115,9 @@ const DetailSurveys = ({ route }) => {
                     Authorization: `Bearer ${user.token}`,
                 },
             });
+
             Alert.alert("Hoàn thành", "Bạn chắc chắn muốn gửi câu trả lời?", [
-                {
+   {
                     text: "OK",
                     onPress: () => {
                         if (res.status === 201) {

@@ -12,7 +12,6 @@ import MapView, { Marker, Polyline } from "react-native-maps";
 import axios from "axios";
 
 const GoHome = () => {
-    //vị trí hiện tại và tọa độ tuyến đường
     const [region, setRegion] = useState({
         latitude: 37.78825,
         longitude: -122.4324,
@@ -21,6 +20,7 @@ const GoHome = () => {
     });
     const [location, setLocation] = useState(null);
     const [routeCoordinates, setRouteCoordinates] = useState([]);
+
     const [destination, setDestination] = useState({
         latitude: 10.822242,
         longitude: 106.690252,
@@ -28,7 +28,6 @@ const GoHome = () => {
 
     const apiKey = process.env.REACT_APP_API_KEY;
 
-    // Sử dụng useEffect để lấy vị trí hiện tại và cập nhật tuyến đường khi ứng dụng khởi chạy
     useEffect(() => {
         (async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
@@ -38,6 +37,7 @@ const GoHome = () => {
             }
 
             // Lấy vị trí hiện tại
+
             let location = await Location.getCurrentPositionAsync({});
             setLocation(location);
             setRegion({
@@ -122,6 +122,7 @@ const GoHome = () => {
                 latitude: lat / 1e5,
                 longitude: lng / 1e5,
             });
+
         }
         return points;
     };

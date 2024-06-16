@@ -1,11 +1,12 @@
-//
-
+// Import necessary components and functions
 import React, { useEffect, useState, useReducer } from "react";
 import { View, ActivityIndicator } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { onAuthStateChanged } from "firebase/auth";
 
+// Import your screens and components
 import LoginScreen from "./components/Login/login";
 import HomeScreen from "./components/Main/home";
 import ForgotAccountScreen from "./components/Login/forgotAccount";
@@ -31,9 +32,13 @@ import IdeaPrivate from "./components/ideally/ideaPrivate";
 
 import { MyDispatcherContext, MyUserContext } from "./configs/Contexts";
 import { MyUserReducer } from "./configs/Reducers";
+
 import GoHome from "./components/traffic/goHome";
 import SurveysList from "./components/reflect/surveys";
 import DetailSurveys from "./components/reflect/detailSurveys";
+import Chat from "./components/ChatRealTime/chat";
+import ReflectScreen from "./components/reflect/reflect";
+
 import MapScr from "./components/traffic/map";
 
 const Stack = createNativeStackNavigator();
@@ -73,54 +78,53 @@ const MyStack = ({ userToken }) => {
             <Stack.Screen name="BankPayScreen" component={BankPayScreen} />
             <Stack.Screen name="BillPaidScreen" component={BillPaidScreen} />
             <Stack.Screen name="SeeDetail" component={SeeDetail} />
+
+            <Stack.Screen name="Chat" component={Chat} />
+            <Stack.Screen name="ReflectScreen" component={ReflectScreen} />
+
         </Stack.Navigator>
     );
 };
 
+// Define App component
 const App = () => {
-    const [user, dispatcher] = useReducer(MyUserReducer, null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [userToken, setUserToken] = useState(null);
+  const [user, dispatcher] = useReducer(MyUserReducer, null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [userToken, setUserToken] = useState(null);
 
-    useEffect(() => {
-        const checkLoginStatus = async () => {
-            try {
-                const token = await AsyncStorage.getItem("access_token");
-                setUserToken(token);
-            } catch (e) {
-                console.error(e);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const token = await AsyncStorage.getItem("access_token");
+        setUserToken(token);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-        checkLoginStatus();
-    }, []);
+    checkLoginStatus();
+  }, []);
 
-    if (isLoading) {
-        // Hiển thị một màn hình loading trong khi kiểm tra trạng thái đăng nhập
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
-            >
-                <ActivityIndicator size="large" color="#0000ff" />
-            </View>
-        );
-    }
-
+  if (isLoading) {
+    // Show loading indicator while checking login status
     return (
-        <NavigationContainer>
-            <MyUserContext.Provider value={user}>
-                <MyDispatcherContext.Provider value={dispatcher}>
-                    <MyStack userToken={userToken} />
-                </MyDispatcherContext.Provider>
-            </MyUserContext.Provider>
-        </NavigationContainer>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
     );
+  }
+
+  return (
+    <NavigationContainer>
+      <MyUserContext.Provider value={user}>
+        <MyDispatcherContext.Provider value={dispatcher}>
+          <MyStack userToken={userToken} />
+        </MyDispatcherContext.Provider>
+      </MyUserContext.Provider>
+    </NavigationContainer>
+  );
 };
 
 export default App;

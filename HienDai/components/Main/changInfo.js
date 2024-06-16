@@ -19,6 +19,8 @@ import { useNavigation } from "@react-navigation/native";
 import APIs, { endpoints } from "../../configs/APIs";
 import { MyUserContext } from "../../configs/Contexts";
 import { set } from "date-fns";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../configs/firebase";
 
 const ChangInfo = () => {
     const user = React.useContext(MyUserContext);
@@ -69,7 +71,21 @@ const ChangInfo = () => {
                     },
                 }
             );
-            if (res.status === 201) nav.navigate("HomeScreen");
+            if (res.status === 201) {
+               
+                
+                // đăng ký tài khoảng chat realtime
+                const emailchat = user.email
+                const passwordchat = user.id + "123456"
+                if (emailchat !== "" && passwordchat !== "") {
+                    createUserWithEmailAndPassword(auth, emailchat, passwordchat)
+                      .then(() => console.log("Login success"))
+                      .catch((err) => Alert.alert("singup error", err.message));
+                  }
+
+                nav.navigate("HomeScreen");
+               
+            }
         } catch (error) {
             console.log("lỗi");
             if (error.response) {

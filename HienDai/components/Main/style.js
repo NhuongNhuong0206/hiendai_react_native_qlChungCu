@@ -240,4 +240,23 @@ export default StyleSheet.create({
         alignSelf: "center",
         marginTop: 20,
     },
+   
+    chatButton: {
+        position: 'absolute',
+        height: 55,
+         width: 55,
+        bottom: 20,
+        right: 20,
+        zIndex: 999,
+        backgroundColor: "#f3b15b",
+        borderRadius: 30,
+        padding: 10,
+        elevation: 5,
+    },
+    button: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });
+
+

@@ -1,12 +1,16 @@
 import { Avatar, Text, TextInput } from "react-native-paper";
 import {
+    Animated,
     ImageBackground,
     KeyboardAvoidingView,
+    PanResponder,
     Platform,
     ScrollView,
     StatusBar,
     TouchableOpacity,
     View,
+    Image, 
+    Alert
 } from "react-native";
 import myStyles from "../../Styles/myStyles";
 import styles from "./style";
@@ -17,6 +21,11 @@ import { MyUserContext, MyDispatcherContext } from "../../configs/Contexts";
 import Footer from "./../share/footer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword  } from "firebase/auth";
+import { auth } from "../../configs/firebase";
+import { Entypo } from "@expo/vector-icons";
+
 import PaymentScreen from "../Payment/pay";
 import SurveysList from "../reflect/surveys";
 import MapScr from "../traffic/map";
@@ -48,8 +57,44 @@ const HomeScreen = ({ navigation }) => {
 
     const nav = useNavigation();
     const handlePaymentPress = () => {
-        nav.navigate(PaymentScreen); // Điều hướng đến màn hình thanh toán
+        nav.navigate('PaymentScreen'); // Điều hướng đến màn hình thanh toán
+    }
+
+    const emailchat = user.email
+    const passwordchat = user.id + "123456"
+    console.log(emailchat)
+    console.log(passwordchat)
+    const ChatPress = async () => {
+        console.log("vào chat")
+        if (emailchat !== "" && passwordchat !== "") {
+            signInWithEmailAndPassword(auth, emailchat, passwordchat)
+              .then(() => nav.navigate("Chat"))
+              .catch((err) => Alert.alert("Đã có lỗi. Vui lòng thử lại sau ít phút", err.message));
+        }
     };
+    
+   
+
+
+
+    const pan = React.useRef(new Animated.ValueXY()).current;
+
+    const panResponder = React.useRef(
+        PanResponder.create({
+            onStartShouldSetPanResponder: () => true,
+            onPanResponderMove: (event, gestureState) => {
+                pan.x.setValue(gestureState.dx);
+                pan.y.setValue(gestureState.dy);
+            },
+            onPanResponderRelease: (event, gestureState) => {
+                // xử lý khi thả nút
+                Animated.spring(pan, {
+                    toValue: { x: 0, y: 0 },
+                    useNativeDriver: false
+                }).start();
+            }
+        })
+    ).current;
 
     return (
         <ImageBackground
@@ -185,7 +230,7 @@ const HomeScreen = ({ navigation }) => {
                                     isPressed && styles.btnPressedOpacity,
                                 ]}
                                 onPress={() => {
-                                    navigation.navigate(SurveysList);
+                                    navigation.navigate("ReflectScreen");
                                 }}
                             >
                                 <TextInput.Icon
@@ -198,6 +243,10 @@ const HomeScreen = ({ navigation }) => {
                                     Phản ánh
                                 </Text>
                             </TouchableOpacity>
+
+                           
+
+
                         </View>
                         <View style={[styles.utilitiesTow]}>
                             <TouchableOpacity
@@ -219,8 +268,27 @@ const HomeScreen = ({ navigation }) => {
                                     Giao thông
                                 </Text>
                             </TouchableOpacity>
+
+                            
+
                         </View>
+                        
+
                     </View>
+                    <Animated.View
+                        style={[
+                            styles.chatButton,
+                            {
+                                transform: [{ translateX: pan.x }, { translateY: pan.y }]
+                            }
+                        ]}
+                        {...panResponder.panHandlers}
+                    >
+                        <TouchableOpacity style={styles.button}  onPress={ChatPress}>
+                            <Entypo name="chat" size={28} color="#FAFAFA" />
+                           
+                        </TouchableOpacity>
+                    </Animated.View>
                 </KeyboardAvoidingView>
             </ScrollView>
             <Footer />
