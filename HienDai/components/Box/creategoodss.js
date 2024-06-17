@@ -68,11 +68,13 @@ const CreateGoodss = () => {
                 if (res.status === 201) {
                     Alert.alert(
                         "Đăng kí thành công",
-                        "Gửi xét duyệt thành công",
+                        "Về trang chủ",
                         [
                             {
                                 text: "OK",
-                                onPress: () => nav.navigate(ViewGoodss),
+                                onPress: () => {
+                                    nav.navigate(HomeScreen)
+                                },
                             },
                         ],
                         { cancelable: false }
@@ -138,6 +140,7 @@ const CreateGoodss = () => {
                                 lable: "Kích cỡ hàng hoá",
                                 icon: "emoticon-happy-outline",
                             }}
+                            
                             onChangeText={(text) => setNoteGoodss(text)}
                         />
                         <Input

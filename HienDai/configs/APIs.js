@@ -13,12 +13,12 @@ export const endpoints = {
     deleteCarCard: "CarCard/delete_card/",
     ListCarCardOfUser: "CarCard/get_card/",
     getPeople: "user_info_people/get_infopeople/",
-    ListGoodssOfUser: "goods/get_goods/",
+    ListGoodssOfUser: "goods/get_goods",
     createGoodss: "goods/create_goods/",
     changeStatusGoods: (id) => `goods/${id}/Update_items_tatus/`,
     getListSurvey: "surveys/status/",
     getQS: (id) => `/surveys/${id}/questions/`,
-    postAs: "surveyresponses/",
+    getLetter: "letter/get_letters/",
 };
 
 export const authAPI = (token) => {

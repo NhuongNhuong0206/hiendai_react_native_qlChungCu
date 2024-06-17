@@ -18,9 +18,9 @@ const GoHome = () => {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
     });
-    const [location, setLocation] = useState(null);
-    const [routeCoordinates, setRouteCoordinates] = useState([]);
-
+    const [location, setLocation] = useState(null);//Vị trí
+    const [routeCoordinates, setRouteCoordinates] = useState([]);//Lưu toạ độ tuyến đường
+    //Toạ độ điển đến, em lấy 1 vị trí cho nó là vị trí của chung cư
     const [destination, setDestination] = useState({
         latitude: 10.822242,
         longitude: 106.690252,

@@ -24,15 +24,10 @@ import * as Location from "expo-location";
 import GoHome from "./goHome";
 
 const MapScr = () => {
-    const [isPressed, setIsPressed] = useState(false);
     const user = useContext(MyUserContext);
     const dispatcher = useContext(MyDispatcherContext);
     const navigation = useNavigation();
     const handleOpenGoogleMaps = () => {
-        // const destination = "10.676665,106.691552";
-        // Linking.openURL(
-        //     `https://www.google.com/maps/dir/?api=1&destination=${destination}`
-        // );
         navigation.navigate(GoHome);
     };
 

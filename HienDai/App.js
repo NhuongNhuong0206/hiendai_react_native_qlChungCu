@@ -4,9 +4,7 @@ import { View, ActivityIndicator } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { onAuthStateChanged } from "firebase/auth";
 
-// Import your screens and components
 import LoginScreen from "./components/Login/login";
 import HomeScreen from "./components/Main/home";
 import ForgotAccountScreen from "./components/Login/forgotAccount";
@@ -81,50 +79,55 @@ const MyStack = ({ userToken }) => {
 
             <Stack.Screen name="Chat" component={Chat} />
             <Stack.Screen name="ReflectScreen" component={ReflectScreen} />
-
         </Stack.Navigator>
     );
 };
 
 // Define App component
 const App = () => {
-  const [user, dispatcher] = useReducer(MyUserReducer, null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [userToken, setUserToken] = useState(null);
+    const [user, dispatcher] = useReducer(MyUserReducer, null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [userToken, setUserToken] = useState(null);
 
-  useEffect(() => {
-    const checkLoginStatus = async () => {
-      try {
-        const token = await AsyncStorage.getItem("access_token");
-        setUserToken(token);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    useEffect(() => {
+        const checkLoginStatus = async () => {
+            try {
+                const token = await AsyncStorage.getItem("access_token");
+                setUserToken(token);
+            } catch (e) {
+                console.error(e);
+            } finally {
+                setIsLoading(false);
+            }
+        };
 
-    checkLoginStatus();
-  }, []);
+        checkLoginStatus();
+    }, []);
 
-  if (isLoading) {
-    // Show loading indicator while checking login status
+    if (isLoading) {
+        // Show loading indicator while checking login status
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
+            >
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
+    }
+
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
+        <NavigationContainer>
+            <MyUserContext.Provider value={user}>
+                <MyDispatcherContext.Provider value={dispatcher}>
+                    <MyStack userToken={userToken} />
+                </MyDispatcherContext.Provider>
+            </MyUserContext.Provider>
+        </NavigationContainer>
     );
-  }
-
-  return (
-    <NavigationContainer>
-      <MyUserContext.Provider value={user}>
-        <MyDispatcherContext.Provider value={dispatcher}>
-          <MyStack userToken={userToken} />
-        </MyDispatcherContext.Provider>
-      </MyUserContext.Provider>
-    </NavigationContainer>
-  );
 };
 
 export default App;

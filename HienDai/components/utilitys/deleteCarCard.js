@@ -28,7 +28,7 @@ const DeleteCarCard = () => {
     const nav = useNavigation();
     const user = useContext(MyUserContext);
     const [DataListCarCard, setDataListCarCard] = useState({});
-    console.log("user.token", user.token);
+  
     const fetchDataCarCard = async () => {
         try {
             let res = await APIs({

@@ -53,6 +53,12 @@ const LoginScreen = ({ navigation }) => {
             client_secret: process.env.REACT_APP_CLIENT_SECRET,
             grant_type: "password",
         };
+        console.log(
+            "process.env.REACT_APP_CLIENT_ID: ",
+            process.env.REACT_APP_CLIENT_ID,
+            "process.env.REACT_APP_CLIENT_SECRET: ",
+            process.env.REACT_APP_CLIENT_SECRET
+        );
 
         let esc = encodeURIComponent;
         let query = Object.keys(payload)

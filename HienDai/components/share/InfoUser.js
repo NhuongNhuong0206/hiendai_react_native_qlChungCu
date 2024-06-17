@@ -34,7 +34,7 @@ const InfoUser = () => {
     const [avatarchang, setAvatarchang] = useState("");
     console.log("avatar ở info: ", user);
     const dispatcher = useContext(MyDispatcherContext);
-    // -----------------------------------------------------------------------------
+
     const fetchDataInforUsser = async () => {
         try {
             let res = await APIs({
@@ -45,7 +45,6 @@ const InfoUser = () => {
                 },
             });
             setDataPeople(res.data);
-            console.log("dât people: ", dataPeople);
         } catch (ex) {
             console.error(ex);
             Alert.alert(

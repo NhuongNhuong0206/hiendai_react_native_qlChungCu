@@ -22,8 +22,7 @@ import { MyUserContext } from '../../configs/Contexts';
 import { ActivityIndicator, MD2Colors,Appbar } from 'react-native-paper';
 
 export default function Chat() {
-  const userA = useContext(MyUserContext);
-  console.log(userA)
+  const userA = useContext(MyUserContext) || "";
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([]);
   const navigation = useNavigation();

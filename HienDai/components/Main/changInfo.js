@@ -72,8 +72,6 @@ const ChangInfo = () => {
                 }
             );
             if (res.status === 201) {
-               
-                
                 // đăng ký tài khoảng chat realtime
                 const emailchat = user.email
                 const passwordchat = user.id + "123456"
